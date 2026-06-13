@@ -1,0 +1,63 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+cloudflared-linux-amd64.deb
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+docs
+
+# agent / config
+.opencode
+.openclaude
+.agents
+CONTEXT.md
+
+# knowledge graph (auto-generated)
+graphify-out
+
+# drizzle (migrations + meta auto-generated)
+drizzle
+
+# product descriptions (removing soon)
+product_descriptions
+
+# scripts (dev utilities only)
+scripts
+
+# auth schema (removing soon)
+auth-schema.ts
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

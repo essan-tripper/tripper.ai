@@ -1,0 +1,252 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-saffron: #f48b29;
+  --color-saffron-dark: #924c00;
+  --color-himalayan-blue: #455f88;
+  --color-himalayan-blue-dark: #1a365d;
+  --color-earthy-stone: #887364;
+  --color-ethereal-white: #faf9f8;
+  --color-primary-container: #ffdcc4;
+  --color-on-primary-container: #5e2f00;
+}
+
+:root {
+  --background: #faf9f8;
+  --foreground: #1a1c1c;
+  --card: #ffffff;
+  --card-foreground: #1a1c1c;
+  --popover: #ffffff;
+  --popover-foreground: #1a1c1c;
+  --primary: #f48b29;
+  --primary-foreground: #ffffff;
+  --secondary: #455f88;
+  --secondary-foreground: #ffffff;
+  --muted: #f4f3f2;
+  --muted-foreground: #554336;
+  --accent: #f48b29;
+  --accent-foreground: #ffffff;
+  --destructive: #ba1a1a;
+  --border: #e3e2e1;
+  --input: #e3e2e1;
+  --ring: #f48b29;
+  --chart-1: #f48b29;
+  --chart-2: #455f88;
+  --chart-3: #887364;
+  --chart-4: #a7a69e;
+  --chart-5: #924c00;
+  --radius: 0.25rem;
+  --sidebar: #faf9f8;
+  --sidebar-foreground: #1a1c1c;
+  --sidebar-primary: #f48b29;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f3f2;
+  --sidebar-accent-foreground: #1a1c1c;
+  --sidebar-border: #e3e2e1;
+  --sidebar-ring: #f48b29;
+}
+
+.dark {
+  --background: #1a1c1c;
+  --foreground: #faf9f8;
+  --card: #2f3130;
+  --card-foreground: #faf9f8;
+  --popover: #2f3130;
+  --popover-foreground: #faf9f8;
+  --primary: #f48b29;
+  --primary-foreground: #ffffff;
+  --secondary: #b6d0ff;
+  --secondary-foreground: #1a1c1c;
+  --muted: #2f3130;
+  --muted-foreground: #a7a69e;
+  --accent: #f48b29;
+  --accent-foreground: #ffffff;
+  --destructive: #ffdad6;
+  --border: #2f3130;
+  --input: #2f3130;
+  --ring: #ffb780;
+  --chart-1: #ffb780;
+  --chart-2: #adc7f7;
+  --chart-3: #c8c7be;
+  --chart-4: #dcc2b0;
+  --chart-5: #ffb780;
+  --sidebar: #1a1c1c;
+  --sidebar-foreground: #faf9f8;
+  --sidebar-primary: #f48b29;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2f3130;
+  --sidebar-accent-foreground: #faf9f8;
+  --sidebar-border: #2f3130;
+  --sidebar-ring: #ffb780;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+}
+
+::selection {
+  background-color: rgba(244, 139, 41, 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1c1c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 139, 41, 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f48b29;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1a1c1c;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(244, 139, 41, 0.4);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #f48b29;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 139, 41, 0.4) #1a1c1c;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 700ms ease-out both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 700ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeInUp,
+  .animate-fadeIn {
+    animation: none;
+  }
+}
+
+/* === Merch SHOP NOW — breathing outer glow === */
+@keyframes breatheGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 22px rgba(245, 230, 200, 0.45),
+      0 0 44px rgba(245, 230, 200, 0.25),
+      0 0 70px rgba(245, 230, 200, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 32px rgba(245, 230, 200, 0.7),
+      0 0 64px rgba(245, 230, 200, 0.4),
+      0 0 100px rgba(245, 230, 200, 0.2);
+  }
+}
+
+.merch-cta {
+  position: relative;
+  isolation: isolate;
+  animation: breatheGlow 2.5s ease-in-out infinite;
+}
+
+.merch-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+.merch-cta:hover {
+  box-shadow:
+    0 0 38px rgba(245, 230, 200, 0.85),
+    0 0 76px rgba(245, 230, 200, 0.5),
+    0 0 120px rgba(245, 230, 200, 0.28);
+  animation-duration: 1.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .merch-cta {
+    animation: none;
+    box-shadow:
+      0 0 24px rgba(245, 230, 200, 0.5),
+      0 0 48px rgba(245, 230, 200, 0.28);
+  }
+}
