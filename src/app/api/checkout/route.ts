@@ -5,6 +5,8 @@ import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
 import { nanoid } from "nanoid";
 import { eq } from "drizzle-orm";
+import { env } from "@/env";
+import { razorpay } from "@/lib/razorpay";
 import { aj } from "@/lib/arcjet";
 import { slidingWindow } from "@arcjet/next";
 
@@ -26,7 +28,6 @@ export async function POST(request: Request) {
   }
   if (ajDecision.isErrored()) {
     console.error("Arcjet error:", ajDecision.reason);
-    // fail open
   }
 
   const body = await request.json();
@@ -47,12 +48,18 @@ export async function POST(request: Request) {
   }
 
   const addr = address[0];
+
   const totalAmount = items.reduce(
     (sum: number, item: { price: number; quantity: number }) =>
       sum + item.price * item.quantity,
     0
   );
 
+  if (totalAmount < 1) {
+    return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
+  }
+
+  const amountPaise = totalAmount * 100;
   const orderId = `ord_${nanoid(16)}`;
 
   await db.insert(orders).values({
@@ -60,7 +67,7 @@ export async function POST(request: Request) {
     userId: session.user.id,
     paymentStatus: "pending",
     deliveryStatus: "processing",
-    totalAmount,
+    totalAmount: amountPaise,
     shippingName: addr.name,
     shippingPhone: addr.phone,
     shippingAddress: addr.address,
@@ -83,13 +90,21 @@ export async function POST(request: Request) {
   );
   await db.insert(orderItems).values(orderItemsData);
 
-  // Simulate 5-second payment processing
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  const rzpOrder = await razorpay.orders.create({
+    amount: amountPaise,
+    currency: "INR",
+    receipt: orderId,
+  });
 
   await db
     .update(orders)
-    .set({ paymentStatus: "completed", updatedAt: new Date() })
+    .set({ razorpayOrderId: rzpOrder.id, updatedAt: new Date() })
     .where(eq(orders.id, orderId));
 
-  return NextResponse.json({ success: true, orderId });
+  return NextResponse.json({
+    orderId,
+    razorpayOrderId: rzpOrder.id,
+    amount: amountPaise,
+    key_id: env.RAZORPAY_KEY_ID,
+  });
 }

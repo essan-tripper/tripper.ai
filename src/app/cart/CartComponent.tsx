@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTransition, useDeferredValue } from "react";
+import { useCallback, useDeferredValue, useState, useRef } from "react";
 import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
 import { getUserAddresses } from "@/lib/address-actions";
@@ -13,7 +14,8 @@ export default function CartComponent() {
   const router = useRouter();
   const { data: sessionData, isPending } = useSession();
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
-  const [isCheckingOut, startTransition] = useTransition();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const razorpayLoadedRef = useRef(false);
 
   const deferredItems = useDeferredValue(items);
   const totalItems = deferredItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -22,44 +24,99 @@ export default function CartComponent() {
     0
   );
 
-  const handleCheckout = () => {
-    if (isPending || isCheckingOut) return;
+  const handleCheckout = useCallback(async () => {
+    if (isPending || isProcessing) return;
     if (!sessionData?.user) {
       router.push("/sign-in");
       return;
     }
 
-    startTransition(async () => {
-      try {
-        const addresses = await getUserAddresses();
-        if (addresses.length === 0) {
-          router.push("/account?address=required");
-          return;
-        }
+    setIsProcessing(true);
 
-        const defaultAddress = addresses.find((a) => a.isDefault) ?? addresses[0];
-
-        const res = await fetch("/api/checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            items: deferredItems.map(({ id, productType, label, image, price, quantity }) => ({
-              productType, label, image, price, quantity,
-            })),
-            addressId: defaultAddress.id,
-          }),
-        });
-
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error);
-
-        clearCart();
-        router.push(`/order/${data.orderId}`);
-      } catch (err) {
-        console.error(err);
+    try {
+      const addresses = await getUserAddresses();
+      if (addresses.length === 0) {
+        router.push("/account?address=required");
+        return;
       }
-    });
-  };
+
+      const defaultAddress = addresses.find((a) => a.isDefault) ?? addresses[0];
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: deferredItems.map(({ id, productType, label, image, price, quantity }) => ({
+            productType, label, image, price, quantity,
+          })),
+          addressId: defaultAddress.id,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      if (!razorpayLoadedRef.current) {
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.async = true;
+        await new Promise<void>((resolve, reject) => {
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error("Failed to load Razorpay"));
+          document.body.appendChild(script);
+        });
+        razorpayLoadedRef.current = true;
+      }
+
+      const options = {
+        key: data.key_id,
+        amount: data.amount,
+        currency: "INR",
+        name: "Tripper.ai",
+        order_id: data.razorpayOrderId,
+        
+        handler: async (response: any) => {
+          const verifyRes = await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              orderId: data.orderId,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+            }),
+          });
+
+          if (verifyRes.ok) {
+            clearCart();
+            router.push(`/order/${data.orderId}`);
+          } else {
+            const err = await verifyRes.json();
+            toast.error(err.error || "Payment verification failed");
+            setIsProcessing(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            toast.error("Payment cancelled");
+            setIsProcessing(false);
+          },
+        },
+        theme: { color: "#f48b29" },
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on("payment.failed", (response: any) => {
+        toast.error(response.error?.description || "Payment failed");
+        setIsProcessing(false);
+      });
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+      setIsProcessing(false);
+    }
+  }, [sessionData, isPending, isProcessing, deferredItems, clearCart, router]);
 
   if (deferredItems.length === 0) {
     return (
@@ -233,11 +290,11 @@ export default function CartComponent() {
 
             <button
               onClick={handleCheckout}
-              disabled={isCheckingOut}
+              disabled={isProcessing}
               className="w-full mt-6 py-4 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-base tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-60 disabled:hover:scale-100"
               style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
             >
-              {isCheckingOut ? (
+              {isProcessing ? (
                 <span className="flex items-center justify-center gap-2">
                   <Loader2 className="w-4 h-4 animate-spin" />
                   Processing...
