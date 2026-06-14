@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
+import { Plus, Minus } from "lucide-react";
 
 const magnetVariants = [
   { id: "kedarnath", label: "Kedarnath", image: "/magnets/kedanathmagnet.jpeg", price: 129 },
@@ -52,7 +53,7 @@ const specifications = [
 export default function MagnetsComponent() {
   const router = useRouter();
   const { data: sessionData, isPending } = useSession();
-  const { addItem } = useCartStore();
+  const { items, addItem, updateQuantity } = useCartStore();
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [imageSrc, setImageSrc] = useState(magnetVariants[0].image);
 
@@ -62,10 +63,12 @@ export default function MagnetsComponent() {
   };
 
   const currentVariant = magnetVariants[selectedVariant];
+  const currentMagnetId = `magnet-${currentVariant.id}`;
+  const cartItem = items.find((i) => i.id === currentMagnetId);
 
   const handleAddToCart = useCallback(() => {
     addItem({
-      id: `magnet-${currentVariant.id}`,
+      id: currentMagnetId,
       productType: "magnet",
       label: currentVariant.label,
       image: currentVariant.image,
@@ -73,7 +76,7 @@ export default function MagnetsComponent() {
       quantity: 1,
     });
     toast.success(`${currentVariant.label} added to cart`);
-  }, [currentVariant, addItem]);
+  }, [currentVariant, currentMagnetId, addItem]);
 
   const handleBuyNow = useCallback(() => {
     if (isPending) return;
@@ -82,7 +85,7 @@ export default function MagnetsComponent() {
       return;
     }
     addItem({
-      id: `magnet-${currentVariant.id}`,
+      id: currentMagnetId,
       productType: "magnet",
       label: currentVariant.label,
       image: currentVariant.image,
@@ -90,7 +93,7 @@ export default function MagnetsComponent() {
       quantity: 1,
     });
     router.push("/cart");
-  }, [currentVariant, addItem, sessionData, isPending, router]);
+  }, [currentVariant, currentMagnetId, addItem, sessionData, isPending, router]);
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
@@ -241,13 +244,36 @@ export default function MagnetsComponent() {
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 py-4 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
-              >
-                ADD TO CART
-              </button>
+              {cartItem ? (
+                <div
+                  className="flex-1 inline-flex items-center justify-center gap-4 py-4 px-8 rounded-4xl bg-[#f48b29] text-black font-semibold text-base sm:text-lg tracking-wide"
+                  style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
+                >
+                  <button
+                    onClick={() => updateQuantity(currentMagnetId, cartItem.quantity - 1)}
+                    className="hover:scale-110 transition-transform cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-5 h-5" />
+                  </button>
+                  <span className="w-8 text-center tabular-nums">{cartItem.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(currentMagnetId, cartItem.quantity + 1)}
+                    className="hover:scale-110 transition-transform cursor-pointer"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 py-4 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
+                >
+                  ADD TO CART
+                </button>
+              )}
               <button
                 onClick={handleBuyNow}
                 className="merch-cta flex-1 py-4 px-8 rounded-4xl border border-amber-100/60 bg-black/35 backdrop-blur-sm text-amber-100 font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:border-amber-100 hover:bg-black/50 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"

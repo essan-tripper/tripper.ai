@@ -2,9 +2,10 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { Play, ChevronDown, MapPin } from "lucide-react";
+import { Play, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import LoadingLink from "@/components/LoadingLink";
 
 export default function HeroSection() {
   const ref = useRef<HTMLElement>(null);
@@ -70,13 +71,19 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-4 sm:mb-6"
         >
-          <Badge
-            variant="outline"
-            className="bg-white/10 backdrop-blur-md border-white/20 text-white px-3 sm:px-4 py-1.5 text-xs sm:text-sm"
+          <a
+            href="https://www.instagram.com/tripper.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 text-white px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm hover:bg-white/20 transition-all duration-300"
           >
-            <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 text-[#f48b29]" />
-            Sacred Char Dham Yatra
-          </Badge>
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#f48b29]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+            Follow the journey on insta
+          </a>
         </motion.div>
 
         <motion.h1
@@ -106,11 +113,12 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="flex flex-col sm:flex-row gap-3 sm:gap-4"
         >
+          <LoadingLink href="/merch">
           <Button
             size="lg"
-            className="bg-[#f48b29] hover:bg-[#924c00] text-white rounded-xl px-6 sm:px-8 lg:px-10 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg font-medium shadow-[0_8px_30px_rgba(244,139,41,0.4)] hover:shadow-[0_12px_40px_rgba(244,139,41,0.5)] transition-all duration-300 group w-full sm:w-auto"
+            className="bg-[#f48b29] hover:bg-[#924c00] text-white rounded-xl px-6 sm:px-8 lg:px-10 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg font-medium shadow-[0_8px_30px_rgba(244,139,41,0.4)] hover:shadow-[0_12px_40px_rgba(244,139,41,0.5)] transition-all duration-300 group w-full sm:w-auto hover:cursor-pointer"
           >
-            Start Your Yatra
+            Explore Merch
             <motion.span
               className="ml-2 inline-block"
               animate={{ x: [0, 4, 0] }}
@@ -119,15 +127,17 @@ export default function HeroSection() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </motion.span>
           </Button>
+          </LoadingLink>
+          <LoadingLink href="/course">
           <Button
             size="lg"
             variant="outline"
-            onClick={scrollToDestinations}
             className="border-[#f48b29]/50 text-[#f48b29] hover:bg-[#f48b29]/10 rounded-xl px-6 sm:px-8 lg:px-10 py-4 sm:py-5 lg:py-6 text-sm sm:text-base lg:text-lg font-medium backdrop-blur-md w-full sm:w-auto"
           >
             <Play className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
-            Watch Journey
+            Become Tripper 
           </Button>
+          </LoadingLink>
         </motion.div>
       </motion.div>
 

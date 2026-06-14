@@ -49,7 +49,8 @@ export default function Navbar() {
 
   const isHomePage = pathname === "/";
   const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
-  const showTransparent = (isHomePage || isAuthPage) && !isScrolled;
+  const isCoursePage = pathname === "/course";
+  const showTransparent = (isHomePage || isAuthPage || isCoursePage) && !isScrolled;
 
   async function handleSignOut() {
     await authClient.signOut();

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { Plus, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
@@ -54,12 +55,15 @@ const specifications = [
 export default function PostersComponent() {
   const router = useRouter();
   const { data: sessionData, isPending } = useSession();
-  const { addItem } = useCartStore();
+  const { items, addItem, updateQuantity, removeItem } = useCartStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const posterId = "poster-kedarnath";
+  const cartItem = items.find((i) => i.id === posterId);
 
   const handleAddToCart = useCallback(() => {
     addItem({
-      id: "poster-kedarnath",
+      id: posterId,
       productType: "poster",
       label: "Surreal Pilgrimage Route Poster",
       image: "/posters/Posters1.jpeg",
@@ -76,7 +80,7 @@ export default function PostersComponent() {
       return;
     }
     addItem({
-      id: "poster-kedarnath",
+      id: posterId,
       productType: "poster",
       label: "Surreal Pilgrimage Route Poster",
       image: "/posters/Posters1.jpeg",
@@ -228,13 +232,36 @@ export default function PostersComponent() {
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={handleAddToCart}
-                className="flex-1 py-4 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
-              >
-                ADD TO CART
-              </button>
+              {cartItem ? (
+                <div
+                  className="flex-1 inline-flex items-center justify-center gap-4 py-4 px-8 rounded-4xl bg-[#f48b29] text-black font-semibold text-base sm:text-lg tracking-wide"
+                  style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
+                >
+                  <button
+                    onClick={() => updateQuantity(posterId, cartItem.quantity - 1)}
+                    className="hover:scale-110 transition-transform cursor-pointer"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-5 h-5" />
+                  </button>
+                  <span className="w-8 text-center tabular-nums">{cartItem.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(posterId, cartItem.quantity + 1)}
+                    className="hover:scale-110 transition-transform cursor-pointer"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleAddToCart}
+                  className="flex-1 py-4 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
+                >
+                  ADD TO CART
+                </button>
+              )}
               <button
                 onClick={handleBuyNow}
                 className="merch-cta flex-1 py-4 px-8 rounded-4xl border border-amber-100/60 bg-black/35 backdrop-blur-sm text-amber-100 font-semibold text-base sm:text-lg tracking-wide transition-all duration-300 hover:border-amber-100 hover:bg-black/50 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"

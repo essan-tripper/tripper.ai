@@ -8,6 +8,7 @@ import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
+import LoadingLink from "@/components/LoadingLink";
 import { getUserAddresses } from "@/lib/address-actions";
 
 export default function CartComponent() {
@@ -15,7 +16,9 @@ export default function CartComponent() {
   const { data: sessionData, isPending } = useSession();
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const razorpayLoadedRef = useRef(false);
+  const razorpayModalOpenRef = useRef(false);
 
   const deferredItems = useDeferredValue(items);
   const totalItems = deferredItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -32,6 +35,8 @@ export default function CartComponent() {
     }
 
     setIsProcessing(true);
+    setShowOverlay(true);
+    razorpayModalOpenRef.current = false;
 
     try {
       const addresses = await getUserAddresses();
@@ -76,6 +81,7 @@ export default function CartComponent() {
         order_id: data.razorpayOrderId,
         
         handler: async (response: any) => {
+          setShowOverlay(false);
           const verifyRes = await fetch("/api/verify-payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -98,6 +104,7 @@ export default function CartComponent() {
         },
         modal: {
           ondismiss: () => {
+            setShowOverlay(false);
             toast.error("Payment cancelled");
             setIsProcessing(false);
           },
@@ -107,11 +114,15 @@ export default function CartComponent() {
 
       const rzp = new (window as any).Razorpay(options);
       rzp.on("payment.failed", (response: any) => {
+        setShowOverlay(false);
         toast.error(response.error?.description || "Payment failed");
         setIsProcessing(false);
       });
+      razorpayModalOpenRef.current = true;
+      setShowOverlay(false);
       rzp.open();
     } catch (err) {
+      setShowOverlay(false);
       console.error(err);
       toast.error(err instanceof Error ? err.message : "Something went wrong");
       setIsProcessing(false);
@@ -133,19 +144,29 @@ export default function CartComponent() {
           collection of sacred route artwork and find something that speaks to
           you.
         </p>
-        <Link
-          href="/merch"
-          className="inline-flex items-center gap-2 py-3 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-sm tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-          style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
-        >
-          <ShoppingBag className="w-4 h-4" />
-          Browse Merch
-        </Link>
+        <LoadingLink href="/merch">
+          <button
+            className="inline-flex items-center gap-2 py-3 px-8 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] text-black font-semibold text-sm tracking-wide transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            style={{ fontFamily: "var(--font-cinzel), Georgia, serif" }}
+          >
+            <ShoppingBag className="w-4 h-4" />
+            Browse Merch
+          </button>
+        </LoadingLink>
       </div>
     );
   }
 
   return (
+    <>
+      {showOverlay && (
+        <div className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm">
+          <Loader2 className="w-12 h-12 animate-spin text-[#f48b29] mb-6" />
+          <p className="text-white/90 text-lg sm:text-xl font-medium text-center max-w-md px-4">
+            Please do not go back or refresh the page, payment in progress
+          </p>
+        </div>
+      )}
     <div className="px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
       <h1
         className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2"
@@ -304,15 +325,17 @@ export default function CartComponent() {
               )}
             </button>
 
-            <Link
-              href="/merch"
-              className="block text-center mt-4 text-white/30 hover:text-amber-100 text-xs tracking-wide transition-colors"
-            >
-              Continue Shopping
-            </Link>
+            <LoadingLink href="/merch">
+              <button
+                className="block text-center mt-4 text-white/30 hover:text-amber-100 text-xs tracking-wide transition-colors cursor-pointer"
+              >
+                Continue Shopping
+              </button>
+            </LoadingLink>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -13,7 +13,7 @@ const dhams = [
     label: "SACRED CHAR DHAM",
     description:
       "Journey through the Mandakini valley to the throne of Lord Shiva, where ancient stone meets the eternal snows of the Garhwal Himalayas.",
-    image: "/Maps/KedarnathMap.png",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384111/Kedarnath_mg8mev.jpg",
     modalContent: {
       tagline: "Where Shiva resides among the clouds",
       details:
@@ -26,7 +26,7 @@ const dhams = [
     label: "SACRED CHAR DHAM",
     description:
       "Ascend to the abode of Lord Vishnu nestled between the Nar and Narayan mountain ranges along the banks of the Alaknanda river.",
-    image: "/Maps/BadrinathMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/badri_cgzxnb.jpg",
     modalContent: {
       tagline: "The cosmic abode of Lord Vishnu",
       details:
@@ -39,7 +39,7 @@ const dhams = [
     label: "SACRED CHAR DHAM",
     description:
       "Follow the sacred Bhagirathi river to its glacial source, where the goddess Ganga descended to earth in the high Himalayas.",
-    image: "/Maps/GangotriMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384108/gangotri_h5odhj.jpg",
     modalContent: {
       tagline: "Source of the sacred Ganges",
       details:
@@ -52,7 +52,7 @@ const dhams = [
     label: "SACRED CHAR DHAM",
     description:
       "Trek to the source of river Yamuna and seek the blessings of Goddess Yamunotri amidst the pristine peaks of Bandarpoonch.",
-    image: "/Maps/YamunnotriMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Yamunotri_w0upb1.jpg",
     modalContent: {
       tagline: "Origin of the sacred Yamuna",
       details:
@@ -65,7 +65,7 @@ const dhams = [
     label: "CHAR DHAM — WEST",
     description:
       "Walk the shores where Lord Krishna built his magnificent kingdom, a city of gold submerged by the sea after his departure.",
-    image: "/Maps/DwarkaMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/dwarka_tznnnm.jpg",
     modalContent: {
       tagline: "Lord Krishna's divine kingdom",
       details:
@@ -78,7 +78,7 @@ const dhams = [
     label: "CHAR DHAM — EAST",
     description:
       "Witness the majestic Jagannath temple on the Bay of Bengal shores, where the annual Rath Yatra draws millions of devoted pilgrims.",
-    image: "/Maps/PuriMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Jagannath_ths5zz.jpg",
     modalContent: {
       tagline: "Home of the sacred Jagannath",
       details:
@@ -91,7 +91,7 @@ const dhams = [
     label: "CHAR DHAM — SOUTH",
     description:
       "Cross the Pamban bridge to the sacred island where Lord Rama prayed before crossing to Lanka, home of the magnificent Ramanathaswamy temple.",
-    image: "/Maps/RameshwaramMap.jpeg",
+    image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384109/Rameshwaram_zbtrll.jpg",
     modalContent: {
       tagline: "Where Rama prayed before Lanka",
       details:
@@ -104,17 +104,16 @@ export function ChardhamSectionHeader() {
   return (
     <div className="text-center py-16 px-4">
       <span className="text-[#f48b29] text-xs tracking-[0.2em] uppercase font-medium">
-        Sacred Destinations
+        Dream Destinations
       </span>
       <h2
         className="mt-3 text-4xl sm:text-5xl font-bold text-white"
         style={{ fontFamily: "var(--font-instrument-serif), Georgia, serif" }}
       >
-        Explore the Char Dham
+        Explore the Famous Dham
       </h2>
       <p className="mt-4 text-sm sm:text-base text-white/60 max-w-lg mx-auto leading-relaxed">
-        Journey through the four sacred pilgrimage sites that form the heart of
-        Hindu spirituality in the majestic Himalayas.
+        Journey through the Indian sacred pilgrimage sites that form the heart of Hindu spirituality from the majestic Himalayas to Indian Oceans.
       </p>
     </div>
   );

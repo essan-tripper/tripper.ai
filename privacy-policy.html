@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | Tripपर</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .pp-root {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .pp-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+
+    .pp-hero {
+      border-bottom: 0.5px solid #e5e5e5;
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .pp-title {
+      font-size: 28px;
+      font-weight: 500;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .pp-subtitle {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .pp-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .pp-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .pp-meta-item i { font-size: 13px; }
+
+    .pp-toc {
+      background: #f7f7f7;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .pp-toc-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+
+    .pp-toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 1rem;
+    }
+
+    .pp-toc-list li a {
+      font-size: 13px;
+      color: #555;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+    }
+
+    .pp-toc-list li a:hover { color: #1a1a1a; }
+    .pp-toc-list li a i { font-size: 13px; }
+
+    .pp-section { margin-bottom: 2.5rem; }
+
+    .pp-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid #e5e5e5;
+    }
+
+    .pp-section-num {
+      font-size: 11px;
+      color: #aaa;
+      min-width: 20px;
+    }
+
+    .pp-section-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+
+    .pp-section-icon {
+      font-size: 16px;
+      color: #aaa;
+      margin-left: auto;
+    }
+
+    .pp-body {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .pp-body p { margin-bottom: 0.75rem; }
+    .pp-body p:last-child { margin-bottom: 0; }
+
+    .pp-list {
+      list-style: none;
+      margin: 0.5rem 0 0.75rem;
+      padding: 0;
+    }
+
+    .pp-list li {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 3px 0;
+    }
+
+    .pp-list li i {
+      font-size: 13px;
+      margin-top: 4px;
+      flex-shrink: 0;
+      color: #aaa;
+    }
+
+    .pp-highlight {
+      background: #f7f7f7;
+      border-left: 2px solid #ccc;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .pp-contact-card {
+      background: #fff;
+      border: 0.5px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .pp-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #555;
+      padding: 6px 0;
+    }
+
+    .pp-contact-row i { font-size: 16px; color: #aaa; }
+    .pp-contact-row a { color: #555; text-decoration: none; }
+    .pp-contact-row a:hover { color: #1a1a1a; }
+
+    .pp-footer {
+      border-top: 0.5px solid #e5e5e5;
+      padding-top: 1.5rem;
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .pp-footer-brand {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1a1a1a;
+      font-family: Georgia, serif;
+    }
+
+    .pp-footer-note {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    @media (max-width: 480px) {
+      .pp-toc-list { grid-template-columns: 1fr; }
+      .pp-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="pp-root">
+
+  <div class="pp-hero">
+    <p class="pp-eyebrow">Legal · Privacy</p>
+    <h1 class="pp-title">Privacy Policy</h1>
+    <p class="pp-subtitle">How Tripपर collects, uses, and protects your information when you use our website and purchase our products.</p>
+    <div class="pp-meta">
+      <span class="pp-meta-item"><i class="ti ti-calendar"></i> Effective: 14 June 2026</span>
+      <span class="pp-meta-item"><i class="ti ti-clock"></i> 2 min read</span>
+      <span class="pp-meta-item"><i class="ti ti-map-pin"></i> Prayagraj, India</span>
+    </div>
+  </div>
+
+  <div class="pp-toc">
+    <p class="pp-toc-label">Contents</p>
+    <ul class="pp-toc-list">
+      <li><a href="#s1"><i class="ti ti-database"></i> Information we collect</a></li>
+      <li><a href="#s2"><i class="ti ti-chart-dots"></i> How we use it</a></li>
+      <li><a href="#s3"><i class="ti ti-share"></i> Sharing your data</a></li>
+      <li><a href="#s4"><i class="ti ti-shopping-cart"></i> Orders & payments</a></li>
+      <li><a href="#s5"><i class="ti ti-cookie"></i> Cookies</a></li>
+      <li><a href="#s6"><i class="ti ti-shield-check"></i> Your rights</a></li>
+      <li><a href="#s7"><i class="ti ti-lock"></i> Data security</a></li>
+      <li><a href="#s8"><i class="ti ti-mail"></i> Contact us</a></li>
+    </ul>
+  </div>
+
+  <!-- SECTION 01 -->
+  <div class="pp-section" id="s1">
+    <div class="pp-section-header">
+      <span class="pp-section-num">01</span>
+      <h2 class="pp-section-title">Information we collect</h2>
+      <i class="ti ti-database pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>When you interact with Tripपर — whether browsing our site, purchasing products, or following us on Instagram — we may collect the following:</p>
+      <ul class="pp-list">
+        <li><i class="ti ti-point"></i> Name, email address, and delivery address when you place an order</li>
+        <li><i class="ti ti-point"></i> Payment information processed securely through our payment partners</li>
+        <li><i class="ti ti-point"></i> Device and browser data collected automatically when you visit our site</li>
+        <li><i class="ti ti-point"></i> Communications you send us via email or Instagram</li>
+      </ul>
+      <p>We do not collect more than we need. We never ask for information unrelated to your order or experience.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 02 -->
+  <div class="pp-section" id="s2">
+    <div class="pp-section-header">
+      <span class="pp-section-num">02</span>
+      <h2 class="pp-section-title">How we use your information</h2>
+      <i class="ti ti-chart-dots pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>Your information is used to:</p>
+      <ul class="pp-list">
+        <li><i class="ti ti-point"></i> Process and fulfil your orders and send shipping updates</li>
+        <li><i class="ti ti-point"></i> Respond to your questions and support requests</li>
+        <li><i class="ti ti-point"></i> Improve our website, products, and content based on usage patterns</li>
+        <li><i class="ti ti-point"></i> Send occasional updates about new products or pilgrimage content, only if you opt in</li>
+      </ul>
+      <div class="pp-highlight">
+        We will never use your information to send unsolicited marketing or sell it to advertisers.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 03 -->
+  <div class="pp-section" id="s3">
+    <div class="pp-section-header">
+      <span class="pp-section-num">03</span>
+      <h2 class="pp-section-title">Sharing your data</h2>
+      <i class="ti ti-share pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>We share your data only when necessary to deliver our services:</p>
+      <ul class="pp-list">
+        <li><i class="ti ti-point"></i> Courier and shipping partners receive your delivery address to fulfil orders</li>
+        <li><i class="ti ti-point"></i> Payment processors handle your payment details under their own security standards</li>
+        <li><i class="ti ti-point"></i> Analytics tools (such as Vercel Analytics) may collect anonymised usage data</li>
+      </ul>
+      <p>We do not sell, rent, or trade your personal data with any third party for commercial purposes.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 04 -->
+  <div class="pp-section" id="s4">
+    <div class="pp-section-header">
+      <span class="pp-section-num">04</span>
+      <h2 class="pp-section-title">Orders & payments</h2>
+      <i class="ti ti-shopping-cart pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>All orders placed on Tripपर are processed through secure payment gateways. We do not store your full card details on our servers. Order history may be retained for up to 3 years for accounting and customer support purposes, as required under Indian business regulations.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 05 -->
+  <div class="pp-section" id="s5">
+    <div class="pp-section-header">
+      <span class="pp-section-num">05</span>
+      <h2 class="pp-section-title">Cookies</h2>
+      <i class="ti ti-cookie pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>Our website uses essential cookies to remember your cart and preferences. We may also use analytics cookies to understand how visitors navigate the site. You can disable cookies in your browser settings at any time, though some site features may not function correctly as a result.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 06 -->
+  <div class="pp-section" id="s6">
+    <div class="pp-section-header">
+      <span class="pp-section-num">06</span>
+      <h2 class="pp-section-title">Your rights</h2>
+      <i class="ti ti-shield-check pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>You have the right to:</p>
+      <ul class="pp-list">
+        <li><i class="ti ti-point"></i> Access the personal data we hold about you</li>
+        <li><i class="ti ti-point"></i> Request correction of inaccurate information</li>
+        <li><i class="ti ti-point"></i> Request deletion of your data, subject to legal retention requirements</li>
+        <li><i class="ti ti-point"></i> Withdraw consent for marketing communications at any time</li>
+      </ul>
+      <p>To exercise any of these rights, reach out to us directly at the contact below.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 07 -->
+  <div class="pp-section" id="s7">
+    <div class="pp-section-header">
+      <span class="pp-section-num">07</span>
+      <h2 class="pp-section-title">Data security</h2>
+      <i class="ti ti-lock pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>Tripपर is hosted on Vercel with HTTPS encryption on all pages. We take reasonable technical and organisational measures to protect your data from unauthorised access. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 08 -->
+  <div class="pp-section" id="s8">
+    <div class="pp-section-header">
+      <span class="pp-section-num">08</span>
+      <h2 class="pp-section-title">Contact us</h2>
+      <i class="ti ti-mail pp-section-icon"></i>
+    </div>
+    <div class="pp-body">
+      <p>If you have questions about this policy or how your data is handled, please get in touch:</p>
+      <div class="pp-contact-card">
+        <div class="pp-contact-row"><i class="ti ti-user"></i> Essan Srivastava · Founder</div>
+        <div class="pp-contact-row"><i class="ti ti-mail"></i> <a href="mailto:srivastava.essan@gmail.com">srivastava.essan@gmail.com</a></div>
+        <div class="pp-contact-row"><i class="ti ti-map-pin"></i> Prayagraj, Uttar Pradesh, India</div>
+        <div class="pp-contact-row"><i class="ti ti-brand-instagram"></i> <a href="https://www.instagram.com/tripper.ai/" target="_blank">@tripper.ai</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pp-footer">
+    <span class="pp-footer-brand">Tripपर</span>
+    <span class="pp-footer-note">This policy may be updated. The current version is always at trippar.ai/privacy</span>
+  </div>
+
+</div>
+
+</body>
+</html>
