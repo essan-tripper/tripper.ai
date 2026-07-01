@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-sm text-[#555] leading-relaxed">
-            How Tripपर collects, uses, and protects your information when you
+            How Tripper collects, uses, and protects your information when you
             use our website and purchase our products.
           </p>
           <div className="flex gap-6 flex-wrap mt-4">
@@ -49,7 +49,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Section 01 */}
         <Section num="01" id="s1" title="Information we collect" icon={<DatabaseIcon />}>
-          <p>When you interact with Tripपर — whether browsing our site, purchasing products, or following us on Instagram — we may collect the following:</p>
+          <p>When you interact with Tripper — whether browsing our site, purchasing products, or following us on Instagram — we may collect the following:</p>
           <ul className="list-none my-2 mb-3 p-0">
             <Bullet>Name, email address, and delivery address when you place an order</Bullet>
             <Bullet>Payment information processed securely through our payment partners</Bullet>
@@ -86,7 +86,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Section 04 */}
         <Section num="04" id="s4" title="Orders & payments" icon={<CartIcon />}>
-          <p>All orders placed on Tripपर are processed through secure payment gateways. We do not store your full card details on our servers. Order history may be retained for up to 3 years for accounting and customer support purposes, as required under Indian business regulations.</p>
+          <p>All orders placed on Tripper are processed through secure payment gateways. We do not store your full card details on our servers. Order history may be retained for up to 3 years for accounting and customer support purposes, as required under Indian business regulations.</p>
         </Section>
 
         {/* Section 05 */}
@@ -108,7 +108,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Section 07 */}
         <Section num="07" id="s7" title="Data security" icon={<LockIcon />}>
-          <p>Tripपर is hosted on Vercel with HTTPS encryption on all pages. We take reasonable technical and organisational measures to protect your data from unauthorised access. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+          <p>Tripper is hosted on Vercel with HTTPS encryption on all pages. We take reasonable technical and organisational measures to protect your data from unauthorised access. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
         </Section>
 
         {/* Section 08 */}
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Footer */}
         <div className="border-t border-[#e5e5e5] pt-6 mt-12 flex justify-between items-center flex-wrap gap-3">
-          <span className="font-serif text-base font-medium text-[#1a1a1a]">Tripपर</span>
+          <span className="font-serif text-base font-medium text-[#1a1a1a]">Tripper</span>
           <span className="text-xs text-[#aaa]">
             This policy may be updated. The current version is always at trippar.ai/privacy
           </span>

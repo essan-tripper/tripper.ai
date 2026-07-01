@@ -383,7 +383,7 @@ export default function AboutUsPage() {
             We are still writing the story. And perhaps, somewhere along the way, our paths will cross.
           </p>
           <div className="mt-[3rem] font-[var(--font-instrument-serif)] italic tracking-[.04em] reveal d5" style={{ fontSize: '1.3rem', color: saffron }}>
-            — Team Tripपर
+            — Team Tripper
             <small className="block font-[var(--font-inter)] not-italic text-[.66rem] tracking-[.32em] uppercase mt-[.8em]" style={{ color: smoke }}>
               Founded by Essan · India
             </small>

@@ -6,11 +6,12 @@ export default function Footer() {
     <footer id="reachus" className="bg-[#1a1c1c] text-white py-6 sm:py-8 px-34 sm:px-36 lg:px-36">
       <div>
         <div className="mb-4 sm:mb-6">
-          <div className="text-2xl sm:text-3xl mb-4 sm:mb-6 tracking-wide" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>
-            <span className="text-[#f48b29]">Trip</span><span className="text-white">पर</span>
+          <div className="flex flex-col items-start mb-4 sm:mb-6" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>
+            <span className="text-2xl sm:text-3xl tracking-wide text-[#f48b29]">Tripper</span>
+            <span className="text-[10px] text-white tracking-[2px] uppercase">BYESSAN</span>
           </div>
           <p className="text-white/70 leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
-            At Tripपर, we create products that inspire you for the journey. They are designed to become part of your trip, not just proof that you were there. They guide you, let you document, and later remind quietly of moments that were your personal stories worth keeping forever.
+            At Tripper, we create products that inspire you for the journey. They are designed to become part of your trip, not just proof that you were there. They guide you, let you document, and later remind quietly of moments that were your personal stories worth keeping forever.
             <br /><br />
             Because some souvenirs are not bought after the adventure ends. They are the companions that travel beside you.
           </p>
