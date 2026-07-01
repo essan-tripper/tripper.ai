@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useCallback } from "react";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
@@ -10,11 +11,14 @@ import { useSession } from "@/components/providers/auth-provider";
 import { Plus, Minus } from "lucide-react";
 
 const magnetVariants = [
-  { id: "kedarnath", label: "Kedarnath", image: "/magnets/kedanathmagnet.jpeg", price: 129 },
-  { id: "dwarka", label: "Dwarka", image: "/magnets/dwarkamaget.jpeg", price: 129 },
-  { id: "puri", label: "Puri", image: "/magnets/purimagnet.jpeg", price: 129 },
-  { id: "rameshwaram", label: "Rameshwaram", image: "/magnets/rameshwarammagnet.jpeg", price: 129 },
-  { id: "pack", label: "Pack of 4", image: "/magnets/combomagnets.jpeg", price: 399 },
+  { id: "kedarnath", label: "Kedarnath", image: "/magnets/kedanathmagnet.jpeg", price: 129, originalPrice: 149 },
+  { id: "dwarka", label: "Dwarka", image: "/magnets/dwarkamaget.jpeg", price: 129, originalPrice: 149 },
+  { id: "puri", label: "Puri", image: "/magnets/purimagnet.jpeg", price: 129, originalPrice: 149 },
+  { id: "rameshwaram", label: "Rameshwaram", image: "/magnets/rameshwarammagnet.jpeg", price: 129, originalPrice: 149 },
+  { id: "badrinath", label: "Badrinath", image: "/magnets/badrinath.jpeg", price: 129, originalPrice: 149 },
+  { id: "gangotri", label: "Gangotri", image: "/magnets/gangotri.jpeg", price: 129, originalPrice: 149 },
+  { id: "yamunotri", label: "Yamunotri", image: "/magnets/yamunotri.jpeg", price: 129, originalPrice: 149 },
+  { id: "pack", label: "Pack of 4", image: "/magnets/combomagnets.jpeg", price: 399, originalPrice: 599 },
 ];
 
 const aboutItems = [
@@ -50,12 +54,69 @@ const specifications = [
   { label: "Brand", value: "Tripper.Ai" },
 ];
 
+const shrineOptions = magnetVariants.filter(v => v.id !== "pack");
+
+const PackSheet = ({ open, onOpenChange, selectedShrines, setSelectedShrines, onAddToCart }: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  selectedShrines: string[];
+  setSelectedShrines: (v: string[]) => void;
+  onAddToCart: () => void;
+}) => (
+  <Drawer open={open} onOpenChange={onOpenChange}>
+    <DrawerContent className="bg-[#1a1c1c] border-white/10 text-white">
+      <DrawerHeader>
+        <DrawerTitle className="text-white font-serif text-xl">Select 4 Shrines</DrawerTitle>
+        <DrawerDescription className="text-white/60">Choose exactly 4 magnets for your pack</DrawerDescription>
+      </DrawerHeader>
+      <div className="px-6 pb-6">
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {shrineOptions.map((shrine) => {
+            const isSelected = selectedShrines.includes(shrine.id);
+            return (
+              <button
+                key={shrine.id}
+                onClick={() => {
+                  if (isSelected) {
+                    setSelectedShrines(selectedShrines.filter(id => id !== shrine.id));
+                  } else if (selectedShrines.length < 4) {
+                    setSelectedShrines([...selectedShrines, shrine.id]);
+                  }
+                }}
+                className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                  isSelected
+                    ? "border-[#f48b29] bg-[#f48b29]/10"
+                    : "border-white/20 hover:border-white/40"
+                }`}
+              >
+                <div className="relative w-12 h-16 shrink-0 rounded overflow-hidden bg-black/40">
+                  <Image src={shrine.image} alt={shrine.label} fill className="object-cover" sizes="48px" />
+                </div>
+                <span className="text-sm font-medium text-left">{shrine.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button
+          onClick={onAddToCart}
+          disabled={selectedShrines.length !== 4}
+          className="w-full py-3 rounded-4xl bg-[#f48b29] hover:bg-[#e07a1f] disabled:opacity-40 disabled:cursor-not-allowed text-black font-semibold tracking-wide transition-all"
+        >
+          {selectedShrines.length === 4 ? `ADD 4 TO CART (₹399)` : `SELECT ${4 - selectedShrines.length} MORE`}
+        </button>
+      </div>
+    </DrawerContent>
+  </Drawer>
+);
+
 export default function MagnetsComponent() {
   const router = useRouter();
   const { data: sessionData, isPending } = useSession();
   const { items, addItem, updateQuantity } = useCartStore();
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [imageSrc, setImageSrc] = useState(magnetVariants[0].image);
+  const [packSheetOpen, setPackSheetOpen] = useState(false);
+  const [selectedShrines, setSelectedShrines] = useState<string[]>([]);
 
   const handleVariantChange = (index: number) => {
     setSelectedVariant(index);
@@ -67,6 +128,11 @@ export default function MagnetsComponent() {
   const cartItem = items.find((i) => i.id === currentMagnetId);
 
   const handleAddToCart = useCallback(() => {
+    if (currentVariant.id === "pack") {
+      setSelectedShrines([]);
+      setPackSheetOpen(true);
+      return;
+    }
     addItem({
       id: currentMagnetId,
       productType: "magnet",
@@ -78,7 +144,28 @@ export default function MagnetsComponent() {
     toast.success(`${currentVariant.label} added to cart`);
   }, [currentVariant, currentMagnetId, addItem]);
 
+  const handlePackAddToCart = useCallback(() => {
+    selectedShrines.forEach((shrineId) => {
+      const shrine = magnetVariants.find(v => v.id === shrineId)!;
+      addItem({
+        id: `magnet-${shrineId}`,
+        productType: "magnet",
+        label: shrine.label,
+        image: shrine.image,
+        price: Math.round(399 / 4),
+        quantity: 1,
+      });
+    });
+    setPackSheetOpen(false);
+    toast.success("Pack of 4 added to cart!");
+  }, [selectedShrines, addItem]);
+
   const handleBuyNow = useCallback(() => {
+    if (currentVariant.id === "pack") {
+      setSelectedShrines([]);
+      setPackSheetOpen(true);
+      return;
+    }
     if (isPending) return;
     if (!sessionData.user) {
       router.push("/sign-in");
@@ -161,7 +248,10 @@ export default function MagnetsComponent() {
               <span className="text-3xl sm:text-4xl font-bold text-white transition-all duration-300">
                 ₹{currentVariant.price.toLocaleString()}
               </span>
-              {selectedVariant === 4 && (
+              {currentVariant.originalPrice && currentVariant.originalPrice !== currentVariant.price && (
+                <span className="text-lg text-gray-500 line-through mr-3">₹{currentVariant.originalPrice.toLocaleString()}</span>
+              )}
+              {selectedVariant === 7 && (
                 <span className="text-sm text-green-400 bg-green-400/10 px-2 py-1 rounded">
                   Best Value
                 </span>
@@ -285,6 +375,14 @@ export default function MagnetsComponent() {
           </div>
         </div>
       </div>
+
+      <PackSheet
+        open={packSheetOpen}
+        onOpenChange={setPackSheetOpen}
+        selectedShrines={selectedShrines}
+        setSelectedShrines={setSelectedShrines}
+        onAddToCart={handlePackAddToCart}
+      />
     </main>
   );
 }

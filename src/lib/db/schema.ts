@@ -159,6 +159,12 @@ export const orderItemsRelations = relations(orderItems, ({ one }) => ({
   order: one(orders, { fields: [orderItems.orderId], references: [orders.id] }),
 }));
 
+export const interestEmails = pgTable("interest_emails", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const addressesRelations = relations(addresses, ({ one }) => ({
   user: one(user, { fields: [addresses.userId], references: [user.id] }),
 }));

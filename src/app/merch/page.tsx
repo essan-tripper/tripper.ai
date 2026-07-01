@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import JournalInterest from "./JournalInterest";
 
 const products = [
   {
@@ -51,26 +52,7 @@ export default function MerchPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {products.map((product) => {
             if (!product.clickable) {
-              // Journal - INCOMING, not clickable
-              return (
-                <div key={product.id} className="relative flex flex-col">
-                  <div className="relative overflow-hidden rounded-xl aspect-[4/5] sm:aspect-[3/4]">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                    {/* INCOMING overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-                      <span className="font-['var(--font-cinzel)'] text-2xl sm:text-3xl text-amber-100 tracking-widest uppercase border border-amber-100/60 px-6 py-3 rounded-full">
-                        Upcoming
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
+              return <JournalInterest key={product.id} />;
             }
 
             // Magnets & Posters - clickable cards

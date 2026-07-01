@@ -74,13 +74,10 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span
-              className="text-3xl font-serif tracking-wide"
-              style={{ fontFamily: "var(--font-instrument-serif), serif" }}
-            >
-              <span className="text-[#f48b29]">Trip</span>
-              <span className="text-white">पर</span>
+          <Link href="/" className="flex items-start">
+            <span className="flex flex-col items-center leading-tight" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>
+              <span className="text-3xl font-serif text-[#f48b29] tracking-wide">Tripper</span>
+              <span className="text-[10px] text-white tracking-[2px] uppercase">BYESSAN</span>
             </span>
           </Link>
 
@@ -161,13 +158,10 @@ export default function Navbar() {
 
       {/* Mobile navbar */}
       <nav className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#1a1c1c]/95 backdrop-blur-sm flex items-center justify-between px-4">
-        <Link href="/" className="flex items-center">
-          <span
-            className="text-2xl font-serif tracking-wide"
-            style={{ fontFamily: "var(--font-instrument-serif), serif" }}
-          >
-            <span className="text-[#f48b29]">Trip</span>
-            <span className="text-white">पर</span>
+        <Link href="/" className="flex items-start">
+          <span className="flex flex-col items-center leading-tight" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>
+            <span className="text-2xl font-serif text-[#f48b29] tracking-wide">Tripper</span>
+            <span className="text-[10px] text-white tracking-[2px] uppercase">BYESSAN</span>
           </span>
         </Link>
 
