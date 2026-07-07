@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
@@ -92,17 +91,6 @@ export default function PostersComponent() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
-      {/* Breadcrumb */}
-      <div className="pt-20 sm:pt-24 px-4 sm:px-8 max-w-7xl mx-auto">
-        <Link
-          href="/merch"
-          className="inline-flex items-center gap-2 text-white/40 hover:text-amber-100 transition-colors text-sm"
-        >
-          <span>←</span>
-          <span>Back to Merch</span>
-        </Link>
-      </div>
-
       {/* Product Section */}
       <div className="px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">

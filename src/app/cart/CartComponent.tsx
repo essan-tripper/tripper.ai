@@ -262,7 +262,7 @@ export default function CartComponent() {
           <div className="flex justify-end pt-2">
             <button
               onClick={clearCart}
-              className="text-white/30 hover:text-red-400 text-xs tracking-wide transition-colors"
+              className="px-8 py-4 text-lg bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors cursor-pointer"
             >
               Clear Cart
             </button>

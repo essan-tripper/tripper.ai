@@ -69,7 +69,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
           "hidden md:flex fixed top-0 left-0 right-0 z-50 h-16 transition-colors duration-500",
-          showTransparent ? "bg-transparent" : "bg-[#1a1c1c]/95 backdrop-blur-sm"
+          showTransparent ? "bg-transparent" : "bg-black/60 backdrop-blur-md"
         )}
       >
         <div className="max-w-7xl mx-auto px-4 lg:px-8 w-full flex items-center justify-between">
@@ -96,7 +96,14 @@ export default function Navbar() {
                       : "text-white/90 hover:text-[#f48b29]"
                   )}
                 >
-                  {link.label}
+                  <span className="flex items-center gap-1.5">
+                    {link.label}
+                    {link.label === "Merch" && (
+                      <span className="text-[10px] font-bold text-white bg-red-500 px-1.5 py-0.5 rounded-full animate-pulse">
+                        SALE
+                      </span>
+                    )}
+                  </span>
                 </Link>
               );
             })}
@@ -157,7 +164,7 @@ export default function Navbar() {
       </motion.nav>
 
       {/* Mobile navbar */}
-      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-[#1a1c1c]/95 backdrop-blur-sm flex items-center justify-between px-4">
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 bg-black/60 backdrop-blur-md flex items-center justify-between px-4">
         <Link href="/" className="flex items-start">
           <span className="flex flex-col items-center leading-tight" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>
             <span className="text-2xl font-serif text-[#f48b29] tracking-wide">Tripper</span>
@@ -249,7 +256,14 @@ export default function Navbar() {
                             : "text-white/70 hover:text-white hover:bg-white/5"
                         )}
                       >
-                        {link.label}
+                        <span className="flex items-center gap-1.5">
+                          {link.label}
+                          {link.label === "Merch" && (
+                            <span className="text-[10px] font-bold text-white bg-red-500 px-1.5 py-0.5 rounded-full">
+                              SALE
+                            </span>
+                          )}
+                        </span>
                       </Link>
                     </SheetClose>
                   );
