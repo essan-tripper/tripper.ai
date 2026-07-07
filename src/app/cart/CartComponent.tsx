@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useDeferredValue, useState, useRef } from "react";
+import { useCallback, useDeferredValue, useState, useRef, useEffect } from "react";
 import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
@@ -17,8 +17,18 @@ export default function CartComponent() {
   const { items, removeItem, updateQuantity, clearCart } = useCartStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [showRerouting, setShowRerouting] = useState(false);
   const razorpayLoadedRef = useRef(false);
   const razorpayModalOpenRef = useRef(false);
+
+  useEffect(() => {
+    if (showOverlay || showRerouting) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [showOverlay, showRerouting]);
 
   const deferredItems = useDeferredValue(items);
   const totalItems = deferredItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -81,7 +91,7 @@ export default function CartComponent() {
         order_id: data.razorpayOrderId,
         
         handler: async (response: any) => {
-          setShowOverlay(false);
+          setShowRerouting(true);
           const verifyRes = await fetch("/api/verify-payment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -97,6 +107,7 @@ export default function CartComponent() {
             clearCart();
             router.push(`/order/${data.orderId}`);
           } else {
+            setShowRerouting(false);
             const err = await verifyRes.json();
             toast.error(err.error || "Payment verification failed");
             setIsProcessing(false);
@@ -164,6 +175,17 @@ export default function CartComponent() {
           <Loader2 className="w-12 h-12 animate-spin text-[#f48b29] mb-6" />
           <p className="text-white/90 text-lg sm:text-xl font-medium text-center max-w-md px-4">
             Please do not go back or refresh the page, payment in progress
+          </p>
+        </div>
+      )}
+      {showRerouting && (
+        <div className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm">
+          <Loader2 className="w-12 h-12 animate-spin text-[#f48b29] mb-6" />
+          <p className="text-white/90 text-lg sm:text-xl font-medium text-center max-w-md px-4">
+            Payment completed, rerouting
+          </p>
+          <p className="text-white/50 text-sm mt-2">
+            Please do not refresh
           </p>
         </div>
       )}

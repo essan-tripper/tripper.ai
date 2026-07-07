@@ -7,6 +7,7 @@ import { Plus, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
+import { ProductZoom } from "@/components/ProductZoom";
 
 const images = [
   "/posters/Posters1.jpeg",
@@ -90,22 +91,19 @@ export default function PostersComponent() {
   }, [addItem, sessionData, isPending, router]);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+    <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden pt-14 md:pt-16">
       {/* Product Section */}
       <div className="px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Image Carousel */}
           <div className="w-full lg:w-2/5">
             {/* Main Image */}
-            <div className="relative rounded-xl overflow-hidden bg-black/40 aspect-[3/4] mb-4">
-              <Image
-                src={images[selectedIndex]}
-                alt="Surreal Pilgrimage Route Poster"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
-              />
-            </div>
+            <ProductZoom
+              src={images[selectedIndex]}
+              alt="Surreal Pilgrimage Route Poster"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="mb-4"
+            />
 
             {/* Thumbnail row */}
             <div className="flex gap-3 justify-center flex-wrap">

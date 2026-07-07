@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
 import { Plus, Minus } from "lucide-react";
+import { ProductZoom } from "@/components/ProductZoom";
 
 const magnetVariants = [
   { id: "kedarnath", label: "Kedarnath", image: "/magnets/kedanathmagnet.jpeg", price: 129, originalPrice: 149 },
@@ -182,23 +183,19 @@ export default function MagnetsComponent() {
   }, [currentVariant, currentMagnetId, addItem, sessionData, isPending, router]);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+    <main className="min-h-screen bg-[#0a0a0a] overflow-x-hidden pt-14 md:pt-16">
       {/* Product Section */}
       <div className="px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Image Display */}
           <div className="w-full lg:w-2/5">
             {/* Main Image with smooth transition */}
-            <div className="relative rounded-xl overflow-hidden bg-black/40 aspect-[3/4]">
-              <Image
-                key={imageSrc}
-                src={imageSrc}
-                alt="Pilgrims Magnet"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover transition-all duration-500 ease-out"
-              />
-            </div>
+            <ProductZoom
+              src={imageSrc}
+              alt="Pilgrims Magnet"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              imgClassName="transition-all duration-500 ease-out"
+            />
           </div>
 
           {/* Right: Product Info */}
