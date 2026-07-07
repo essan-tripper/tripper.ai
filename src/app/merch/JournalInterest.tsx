@@ -3,11 +3,19 @@
 import { useState, FormEvent } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export default function JournalInterest() {
-  const [showForm, setShowForm] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -25,7 +33,7 @@ export default function JournalInterest() {
       }
       toast.success("Thanks! We'll keep you posted.");
       setEmail("");
-      setShowForm(false);
+      setOpen(false);
     } catch (err: any) {
       toast.error(err.message || "Failed to submit");
     } finally {
@@ -45,32 +53,34 @@ export default function JournalInterest() {
         />
       </div>
       <div className="mt-4 flex justify-center">
-        {!showForm ? (
-          <button
-            onClick={() => setShowForm(true)}
-            className="merch-cta inline-block font-['var(--font-cinzel)'] text-sm sm:text-2xl font-semibold tracking-widest text-amber-100 px-5 py-3 rounded-4xl border border-amber-100/60 bg-black/35 backdrop-blur-sm transition-all duration-300 ease-out hover:border-amber-100 hover:bg-black/50 hover:scale-[1.03] cursor-pointer"
-          >
-            SHOW INTEREST
-          </button>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex gap-2 w-full max-w-xs">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              required
-              className="flex-1 px-4 py-3 rounded-4xl bg-black/40 border border-white/20 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-[#f48b29] transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-5 py-3 rounded-4xl bg-[#f48b29] text-black font-semibold text-sm tracking-wide hover:bg-[#e07a1f] disabled:opacity-50 transition-all cursor-pointer"
-            >
-              {loading ? "..." : "GO"}
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <button className="merch-cta inline-block font-['var(--font-cinzel)'] text-sm sm:text-2xl font-semibold tracking-widest text-amber-100 px-5 py-3 rounded-4xl border border-amber-100/60 bg-black/35 backdrop-blur-sm transition-all duration-300 ease-out hover:border-amber-100 hover:bg-black/50 hover:scale-[1.03] cursor-pointer">
+              SHOW INTEREST
             </button>
-          </form>
-        )}
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Get Notified</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-4 py-1.5 rounded-lg bg-[#f48b29] text-black font-semibold text-sm tracking-wide hover:bg-[#e07a1f] disabled:opacity-50 transition-all cursor-pointer whitespace-nowrap"
+              >
+                {loading ? "..." : "Notify Me"}
+              </button>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
