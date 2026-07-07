@@ -89,10 +89,7 @@ export default function SignInPage() {
             </div>
 
             <div className="space-y-2 relative group">
-              <div className="flex justify-between items-center ml-1">
-                <label className="text-xs font-semibold tracking-wider text-white/70 block transition-colors group-focus-within:text-[#f48b29]" htmlFor="password">Password</label>
-                <Link href="#" className="text-xs font-semibold text-[#f48b29] hover:underline">Forgot?</Link>
-              </div>
+              <label className="text-xs font-semibold tracking-wider text-white/70 block ml-1 transition-colors group-focus-within:text-[#f48b29]" htmlFor="password">Password</label>
               <input
                 id="password"
                 type="password"
