@@ -26,20 +26,34 @@ const SessionContext = createContext<SessionContextType>({
   isPending: true,
 });
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({
+  children,
+  initialSession = null,
+}: {
+  children: ReactNode;
+  initialSession?: SessionData | null;
+}) {
   const { data, isPending } = authClient.useSession();
 
-  const value = data
+  const clientValue: SessionData | null = data
     ? {
         user: data.user,
         session: data.session
           ? { id: data.session.id, userId: data.session.userId }
           : null,
       }
-    : { user: null as SessionData["user"], session: null as SessionData["session"] };
+    : null;
+
+  // Prefer the resolved client session; while it's still loading, fall back to the
+  // server-prefetched session so first paint already shows the signed-in state.
+  const value: SessionData =
+    clientValue ??
+    (isPending ? initialSession : null) ?? { user: null, session: null };
 
   return (
-    <SessionContext.Provider value={{ data: value, isPending }}>
+    <SessionContext.Provider
+      value={{ data: value, isPending: isPending && !initialSession }}
+    >
       {children}
     </SessionContext.Provider>
   );

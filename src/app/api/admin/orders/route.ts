@@ -10,7 +10,10 @@ import { slidingWindow } from "@arcjet/next";
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase());
 
 async function checkAdmin(): Promise<{ error?: NextResponse }> {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({
+    headers: await headers(),
+    query: { disableCookieCache: true },
+  });
   if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
     return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }

@@ -9,7 +9,10 @@ import AdminDashboard from "./AdminDashboard";
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase());
 
 export default async function AdminPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({
+    headers: await headers(),
+    query: { disableCookieCache: true },
+  });
   
   if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
     redirect("/sign-in");
