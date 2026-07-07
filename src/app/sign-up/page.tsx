@@ -5,6 +5,7 @@ import { authClient } from "@/lib/db/auth-client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -48,7 +50,9 @@ export default function SignUpPage() {
   }
 
   async function handleGoogleSignUp() {
+    setGoogleLoading(true);
     await authClient.signIn.social({ provider: "google" });
+    setGoogleLoading(false);
   }
 
   return (
@@ -74,11 +78,16 @@ export default function SignUpPage() {
           <div className="w-full">
             <button
               onClick={handleGoogleSignUp}
-              className="w-full flex items-center justify-center gap-3 border border-white/20 text-white/80 hover:bg-white/5 bg-transparent font-medium text-base py-4 rounded-lg transition-all cursor-pointer"
+              disabled={googleLoading}
+              className="w-full flex items-center justify-center gap-3 border border-white/20 text-white/80 hover:bg-white/5 bg-transparent font-medium text-base py-4 rounded-lg transition-all cursor-pointer disabled:opacity-60"
               type="button"
             >
-              <Image src="/google-logo.svg" width={20} height={20} alt="Google" />
-              <span>Sign up with Google</span>
+              {googleLoading ? (
+                <Spinner className="size-5 text-white/80" />
+              ) : (
+                <Image src="/google-logo.svg" width={20} height={20} alt="Google" />
+              )}
+              <span>{googleLoading ? "Redirecting..." : "Sign up with Google"}</span>
             </button>
           </div>
 
