@@ -60,6 +60,14 @@ export async function POST(request: Request) {
   }
 
   const amountPaise = totalAmount * 100;
+  const adminEmails = (env.ADMIN_EMAILS || "")
+    .split(",")
+    .map(e => e.trim().toLowerCase());
+  const razorpayAmount =
+    session.user.email &&
+    adminEmails.includes(session.user.email.toLowerCase())
+      ? 100
+      : amountPaise;
   const orderId = `ord_${nanoid(16)}`;
 
   await db.insert(orders).values({
@@ -91,7 +99,7 @@ export async function POST(request: Request) {
   await db.insert(orderItems).values(orderItemsData);
 
   const rzpOrder = await razorpay.orders.create({
-    amount: amountPaise,
+    amount: razorpayAmount,
     currency: "INR",
     receipt: orderId,
   });
@@ -104,7 +112,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     orderId,
     razorpayOrderId: rzpOrder.id,
-    amount: amountPaise,
+    amount: razorpayAmount,
     key_id: env.RAZORPAY_KEY_ID,
   });
 }
