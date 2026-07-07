@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
+import AutoPlay from "embla-carousel-autoplay";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -32,8 +33,14 @@ export function DestinationModal({ dham, open, onOpenChange }: DestinationModalP
   // FIX 2: Single carousel instance — one embla ref used for both mobile and desktop.
   // Previously two separate embla instances shared one onSelect handler via `??`,
   // meaning only whichever initialised first drove the dot state, causing desync.
-  const [emblaDesktopRef, emblaDesktopApi] = useEmblaCarousel({ loop: true });
-  const [emblaMobileRef, emblaMobileApi] = useEmblaCarousel({ loop: true });
+  const [emblaDesktopRef, emblaDesktopApi] = useEmblaCarousel(
+    { loop: true },
+    [AutoPlay({ delay: 3000, stopOnInteraction: true })]
+  );
+  const [emblaMobileRef, emblaMobileApi] = useEmblaCarousel(
+    { loop: true },
+    [AutoPlay({ delay: 3000, stopOnInteraction: true })]
+  );
 
   const [desktopIndex, setDesktopIndex] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
