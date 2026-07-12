@@ -28,8 +28,8 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { label: "Home", href: "/", icon: null },
-  { label: "Plan", href: "/plan", icon: Route },
   { label: "Merch", href: "/merch", icon: ShoppingBag },
+  { label: "Plan", href: "/plan", icon: Route },
   { label: "Order", href: "/order", icon: Package },
   { label: "Cart", href: "/cart", icon: ShoppingBag },
 ];
