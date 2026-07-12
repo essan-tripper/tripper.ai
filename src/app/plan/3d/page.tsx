@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { CtaPlaceholder } from "@/lib/plan/cta-placeholder";
-
-const PlanThreeDView = dynamic(() => import("./PlanThreeDView"), { ssr: false });
+import DynamicGlobe from "./DynamicGlobe";
 
 export const metadata: Metadata = {
   title: "3D Globe — How We Plan a Trip",
@@ -17,7 +15,7 @@ export const metadata: Metadata = {
 export default function GlobePage() {
   return (
     <>
-      <PlanThreeDView />
+      <DynamicGlobe />
       <CtaPlaceholder />
     </>
   );
