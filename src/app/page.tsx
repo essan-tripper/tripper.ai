@@ -26,7 +26,7 @@ const Footer = dynamic(() => import("@/components/Footer"), {
 export default function Home() {
   return (
     <>
-      <link rel="preload" href="/videos/desktop.mp4" as="video" type="video/mp4" />
+      <link rel="preload" href="https://res.cloudinary.com/dbciv3dc2/video/upload/v1783888533/desktop_i1xgyw.mp4" as="video" type="video/mp4" />
       <main className="min-h-screen overflow-x-hidden">
         <HeroSection />
         <DestinationsSection />

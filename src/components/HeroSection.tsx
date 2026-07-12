@@ -53,7 +53,7 @@ export default function HeroSection() {
           className="w-full h-full object-cover"
         >
           <source
-            src={isMobile ? "/videos/mobile.mp4" : "/videos/desktop.mp4"}
+            src={isMobile ? "https://res.cloudinary.com/dbciv3dc2/video/upload/v1783888536/mobile_b9t4az.mp4" : "https://res.cloudinary.com/dbciv3dc2/video/upload/v1783888533/desktop_i1xgyw.mp4"}
             type="video/mp4"
           />
         </video>

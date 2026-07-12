@@ -10,12 +10,12 @@ import { useSession } from "@/components/providers/auth-provider";
 import { ProductZoom } from "@/components/ProductZoom";
 
 const images = [
-  "/posters/Posters1.jpeg",
-  "/posters/Posters2.jpeg",
-  "/posters/Posters3.jpeg",
-  "/posters/Posters4.jpeg",
-  "/posters/Posters5.jpeg",
-  "/posters/Posters6.jpeg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888329/Posters2_zzkfle.jpg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888330/Posters3_yssmt5.jpg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888333/Posters4_onk14a.jpg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters5_pw7gtq.jpg",
+  "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888327/Posters6_npipve.jpg",
 ];
 
 const aboutItems = [
@@ -66,7 +66,7 @@ export default function PostersComponent() {
       id: posterId,
       productType: "poster",
       label: "Surreal Pilgrimage Route Poster",
-      image: "/posters/Posters1.jpeg",
+      image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
       price: 1299,
       quantity: 1,
     });
@@ -83,7 +83,7 @@ export default function PostersComponent() {
       id: posterId,
       productType: "poster",
       label: "Surreal Pilgrimage Route Poster",
-      image: "/posters/Posters1.jpeg",
+      image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
       price: 1299,
       quantity: 1,
     });

@@ -1,18 +1,3 @@
 # Progress
 
-> Current task tracking — cleared after each completed feature.
-> Updated: 2026-07-12
-
-## Current Task: CI/CD Pipeline
-
-### Done
-- Installed ESLint + Next.js ESLint config (`eslint`, `@next/eslint-plugin-next`, `eslint-config-next`, `typescript-eslint`)
-- Added `lint` (`next lint --max-warnings 0`) and `typecheck` (`tsc --noEmit`) scripts to `package.json`
-- Created `eslint.config.mjs` — Next.js 15 flat config with TypeScript rules
-- Created `.github/workflows/ci.yml` — 3 parallel jobs (typecheck, lint, build) on push/PR to `main`
-- Updated `AGENTS.md` — Commands table, CI/CD line
-
-### Verification
-- [x] `npm run typecheck` passes
-- [x] `npm run lint` passes
-- [x] `npm run build` passes
+I am trying to add a new section which will display the website booking section, how the travel is booked. the idea is basically to create a booking trip feature in which people can see how a trip is booked like all the itineraries planning all the destinations and routes planning we will not be creating any kind of paywall for this or any kind of payment feature in which people can actually book it just a visual representation of how we plan the travel for our customers how we customize their travel experiences and the goal is to stand out from the ordinary websites like create some three d visualization or game type of feature i'm not really sure just trying to brainstorm upon this idea on how to create this page and towards the end we will create a form in which people can basically fill out their details and the details of those form will be saved to a google sheet website it will not be saved to a database

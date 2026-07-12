@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer id="reachus" className="bg-[#1a1c1c] text-white py-6 sm:py-8 px-34 sm:px-36 lg:px-36">
+    <footer id="reachus" className="bg-[#1a1c1c] text-white py-6 sm:py-8 px-6 sm:px-36 lg:px-36">
       <div>
         <div className="mb-4 sm:mb-6">
           <div className="flex flex-col items-start mb-4 sm:mb-6" style={{ fontFamily: "var(--font-instrument-serif), serif" }}>

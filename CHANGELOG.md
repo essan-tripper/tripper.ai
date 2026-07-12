@@ -5,6 +5,27 @@ Format: Date [Version] — What changed (files affected, notable behavior shifts
 
 ---
 
+## v0.7.0 — 2026-07-12
+**Cloudinary migration, footer responsive fix, carousel autoplay**
+- **Cloudinary CDN**: All assets migrated from `public/` — magnets (8), posters (6+2 cart refs),
+  hero videos (2), preload link. No config changes needed.
+- **Footer responsive** (`src/components/Footer.tsx`): Fixed invalid `px-34` → `px-6 sm:px-36`.
+  Footer content no longer touches screen edges on mobile.
+- **Carousel autoplay** (`src/components/DestinationsSection.tsx`): Added
+  `embla-carousel-autoplay` plugin. Auto-advances every 5s, stops on user interaction.
+- **Magnets** (`src/app/magnets/MagnetsComponent.tsx`): 8 magnet product images replaced with
+  Cloudinary URLs (Kedarnath, Dwarka, Puri, Rameshwaram, Badrinath, Gangotri, Yamunotri, Pack of 4).
+- **Posters** (`src/app/posters/PostersComponent.tsx`): 6 poster gallery images + 2 cart item
+  references replaced with Cloudinary URLs (Posters1–Posters6).
+- **Hero video** (`src/components/HeroSection.tsx`): desktop.mp4 and mobile.mp4 replaced with
+  Cloudinary video URLs. Conditional switching preserved.
+- **Preload link** (`src/app/page.tsx`): desktop.mp4 preload `href` updated to Cloudinary URL.
+- `next.config.ts` already had `res.cloudinary.com` in `remotePatterns` — no config change needed.
+- No database schema changes.
+- Typecheck and build pass cleanly.
+
+---
+
 ## v0.6.0 — 2026-07-12
 **SEO sprint — full metadata, sitemap, robots, JSON-LD, not-found**
 - **Root layout** (`src/app/layout.tsx`): Complete metadata rewrite — added `metadataBase`

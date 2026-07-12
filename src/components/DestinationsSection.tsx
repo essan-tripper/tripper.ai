@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { DestinationModal } from "@/components/DestinationModal";
 
 const dhams = [
@@ -123,7 +124,10 @@ export function ChardhamCarousel() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   // FIX: added dragFree:false and watchDrag:true (defaults) to ensure swipe works reliably
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true },
+    [Autoplay({ delay: 5000, stopOnInteraction: true })]
+  );
   const [selectedDham, setSelectedDham] = useState<(typeof dhams)[0] | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
 

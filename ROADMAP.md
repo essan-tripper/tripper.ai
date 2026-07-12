@@ -1,183 +1,111 @@
-## FEATURES
+# ROADMAP
 
-### ✓ SEO Sprint — Completed 2026-07-12
-
-Full metadata overhaul: root layout with metadataBase, title template, OG/Twitter/verification/icons/manifest. Per-page metadata on all 14 routes. robots.txt, sitemap.xml, not-found.tsx, JSON-LD Organization schema. Favicon assets deployed (ico, svg, 96x96, apple-touch, webmanifest). font-display: swap fixed. poweredByHeader removed.
-
-**Remaining:** og-image.jpg, GSC placeholder swap, Product/BreadcrumbList JSON-LD (future).
+Progress tracker — what's built, what's risky, what needs care.
 
 ---
 
-## UI / UX
+## ✓ Built
 
-Changes ordered by complexity (easiest first). Each item has a git commit message — agent can implement then commit before moving to next. THIS IS IMPORTANT, AFTER EVERY FEATURE CHANGE YOU MUST COMMIT THE CHANGES THEN ONLY MOVE AHEAD.
+### Foundation
+- **Next.js 15 App Router**, TypeScript strict, Tailwind CSS v4, shadcn/ui
+- **Dark theme** (#0a0a0a bg, #f48b29 accent), cinematic fonts (Cinzel, Instrument Serif, Inter, Playfair)
+- **PostgreSQL** via Drizzle ORM, `postgres.js` driver
+- **All DB tables**: user, session, account, verification (better-auth generated) + orders, order_items, addresses, interest_emails (hand-written)
 
+### Auth (better-auth)
+- Email/password + Google OAuth
+- Cookie cache (`maxAge` 5 min) — ~80-95% fewer session DB queries
+- Server-prefetched session → client hydration — no first-paint flash
+- Security gates (`/admin`, admin API) opt out of cookie cache via `disableCookieCache: true`
+- Vendored official better-auth docs at `docs/agents/better-auth/better_auth_official.md`
 
-### 1. High-res image zoom (Amazon/Flipkart style)
+### Cart (Zustand + localStorage)
+- Client-only, key `tripper-cart`, Zod-validated on every mutation
+- addItem, removeItem, updateQuantity, clearCart
+- Same id = merge quantity
 
-**Files:**
-- `src/components/DestinationModal.tsx` — desktop carousel section (lines 117-168)
+### Payments (Razorpay)
+- Full 6-step flow: checkout order creation → Razorpay order → client modal → verify-payment → webhook backup → order history
+- HMAC-SHA256 signature verification on both verify-payment and webhook
+- Admin email trick: orders from admin emails get ₹1 (test-friendly)
+- **Status**: Razorpay keys live in `.env` — switch test→live by updating env values
 
-**Note:** Desktop-only feature. Mobile carousel (`md:hidden` block, lines 206-262) is left untouched.
+### Admin Dashboard (`/admin`)
+- Gated by `ADMIN_EMAILS` env var
+- 3 tabs: Orders (view + update delivery status), Interest (journal waitlist), Accounts (users w/o orders)
+- API: PATCH `/api/admin/orders` for delivery status updates
 
-**Current architecture context for desktop carousel:**
-- 7 images served from `/Carousel Tips/{name}{index}.jpeg` where `name` is `dham.name` with whitespace stripped (see `getModalImagePath()` at line 26-29)
-- Each image rendered via `<Image fill className="object-cover" />` inside a `relative flex-[0_0_100%]` slide
-- Carousel is 55% modal width on desktop
-- Images are already publicly hosted — paths are raw JPEG files on the server
+### SEO
+- Full metadata: metadataBase, title template, OG/Twitter, verification, icons, manifest, canonical
+- Per-page metadata on all 14 routes (public pages unique, auth/admin noindex)
+- robots.txt, sitemap.xml (9 URLs), not-found.tsx, JSON-LD Organization schema
+- Favicon assets deployed: .ico, .svg, 96x96.png, apple-touch-icon.png, site.webmanifest
+- font-display: swap on all 4 fonts
+- poweredByHeader: false
 
-#### Sub-feature 1a: Source high-res images (OPTION B — resolved)
+### Security (Arcjet)
+- Shield (LIVE) + sliding window rate limits (DRY_RUN) on all API routes
+- Rate limit configs: checkout (10/60s), verify-payment (20/60s), orders (30/60s), interest (10/60s), admin/orders (30/60s), webhooks (shield only)
 
-**Decision:** Use **Option B** — existing images are already 1792×2400px, ample for 2x zoom. No `@2x` variants needed. Same URL for zoom overlay and thumbnail.
+### Content Pages
+- /about-us, /privacy-policy, /course (standalone)
+- sign-in, sign-up, account (address management + order history)
 
-#### Sub-feature 1b: Zoom container + cursor tracking
+### UI Polish
+- **High-res image zoom**: Amazon-style 2x zoom on DestinationModal desktop carousel with percentage-based cursor tracking
+- **Carousel autoplay**: embla-carousel-autoplay on DestinationModal (3s intervals)
+- **Dual-carousel fix**: separate embla instances + independent index state for mobile/desktop — no desync
+- **Close button visible**: white coloring on DialogContent close button
+- **Mobile layout fix**: modal scrollable on mobile, text-first carousel-below order
+- **Google auth spinner**: Spinner component + "Redirecting..." text on Google sign-in button
+- **Footer responsive**: `px-34` → `px-6 sm:px-36`
 
-1. **Wrap each desktop slide** content. Current structure (lines 120-133):
-   ```tsx
-   <div className="relative flex-[0_0_100%] min-w-0 h-full">
-     <Image fill className="object-cover" />
-   </div>
-   ```
-   Replace with:
-   ```tsx
-   <div className="relative flex-[0_0_100%] min-w-0 h-full group/zoom">
-     <div
-       className="relative w-full h-full overflow-hidden cursor-crosshair"
-       onMouseMove={handleMouseMove}
-       onMouseLeave={handleMouseLeave}
-     >
-       <Image
-         fill
-         className="object-cover pointer-events-none select-none"
-         style={{ opacity: isZoomed ? 0 : 1 }}
-       />
-       {/* Zoom overlay */}
-       <div
-         className="absolute inset-0 bg-no-repeat pointer-events-none transition-opacity duration-150"
-         style={{
-           backgroundImage: `url(${highResUrl})`,
-           backgroundSize: `${zoomScale}%`,
-           backgroundPosition: `${bgX}% ${bgY}%`,
-           opacity: isZoomed ? 1 : 0,
-         }}
-       />
-     </div>
-   </div>
-   ```
+### CDN (Cloudinary)
+- All assets migrated from `public/` to Cloudinary: 8 magnets, 6 posters, hero videos (desktop + mobile)
+- Preload link updated; `res.cloudinary.com` already in `remotePatterns`
 
-2. **State per slide** — use a single set of zoom state variables (one zoom active at a time):
-   ```ts
-   const [isZoomed, setIsZoomed] = useState(false);
-   const [bgX, setBgX] = useState(50);
-   const [bgY, setBgY] = useState(50);
-   const zoomScale = 200; // 2x zoom
-   ```
-
-3. **Mouse move handler** — percentage-based math:
-   ```ts
-   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-     const rect = e.currentTarget.getBoundingClientRect();
-     const x = ((e.clientX - rect.left) / rect.width) * 100;
-     const y = ((e.clientY - rect.top) / rect.height) * 100;
-     setBgX(x);
-     setBgY(y);
-     setIsZoomed(true);
-   }
-
-   function handleMouseLeave() {
-     setIsZoomed(false);
-   }
-   ```
-
-4. **Event routing** — `pointer-events: none` on `<Image>` (already on the zoom overlay via `className="pointer-events-none"`). Mouse events fire on the parent container only.
-
-#### Sub-feature 1c: Preload high-res images — SKIPPED
-
-No preload. Slight flash on first hover is acceptable tradeoff.
-
-#### Sub-feature 1d: Mobile fallback — SKIPPED
-
-Mobile carousel left untouched. Desktop zoom only.
-
-**Commit:**
-```
-feat: implement high-res image zoom on DestinationModal desktop carousel
-
-Add Amazon-style zoom: 2x resolution on hover with percentage-based
-cursor tracking for background-position. pointer-events:none on img
-to route events to parent.
-```
+### Analytics
+- Vercel Analytics + Speed Insights in root layout
 
 ---
 
-### 2. Switch Razorpay from test mode to live mode
+## ⚠️ Risks & Careful Spots
 
-**Prerequisite:** Have live Razorpay keys ready (generated from Razorpay Dashboard → Settings → API Keys).
+### Payment
+- **Race condition**: verify-payment AND webhook can fire for same order. Harmless (both SET `paymentStatus`), but double-charge logic would break if adding email/SMS notifications later
+- **No failed/refunded tracking**: payment failures surface as client-side toast + order stays `pending` in DB. No retry/refund workflow
+- **Admin ₹1 trick**: admin emails bypass real amount. Fine for testing, unexpected in prod unless documented
 
-**Files:**
-- `.env` — update key values only (no structure change)
+### Auth & Security
+- **Cookie cache staleness**: up to 5 min window where a revoked/de-admined user can still act. Security gates opt out; user-data endpoints left cached (staleness harmless)
+- **Arcjet DRY_RUN**: rate limits logged but not enforced. Switch to LIVE incrementally (verify-payment, orders, interest safest to flip first)
+- **ADMIN_EMAILS env var**: single point of admin access. If misconfigured, no one can access `/admin`
 
-**Changes:**
+### Data & Storage
+- **Cart is localStorage-only**: clearing browser storage loses cart. No server sync. Sync to DB if multi-device needed
+- **No CMS**: product data hardcoded in components. New products = code changes + deploy
+- **Pincode data** (`src/data/pincode-ranges.ts`): auto-generated, do not edit by hand. Regenerate if state boundaries change
+- **No image fallbacks**: if Cloudinary goes down or URLs change, all product/hero images break
 
-1. **Replace Razorpay API keys** in `.env`:
-   ```
-   # Before (test mode)
-   RAZORPAY_KEY_ID=rzp_test_T1Fw4or3vqJyU7
-   RAZORPAY_KEY_SECRET=T51UqOQwtwshR4tj4Kvo92YX
-   NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_T1F4cd5PvSBaWh
+### SEO Gaps
+- **og-image.jpg** — not in `public/`. Default OG fallback is `/LOGO.png` (512×512, not ideal aspect ratio)
+- **GSC placeholder** — `layout.tsx:78` has `"YOUR_GOOGLE_SEARCH_CONSOLE_ID"`. Replace before launch
+- **Product JSON-LD** + **BreadcrumbList** — not implemented
+- **favicon.ico** / **apple-touch-icon.png** — files exist in `public/` (verified)
 
-   # After (live mode)
-   RAZORPAY_KEY_ID=rzp_live_<your_live_key_id>
-   RAZORPAY_KEY_SECRET=<your_live_key_secret>
-   NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_live_<your_live_key_id>
-   ```
-   **Important:** `NEXT_PUBLIC_RAZORPAY_KEY_ID` and `RAZORPAY_KEY_ID` should be the same key.
-   The test file had them different — likely a copy-paste issue. Fix during migration.
+### Architecture
+- **No test suite**: no test runner configured. Adding features risk regressions
+- **`npm run lint` / `npm run typecheck` exist** but no test script
+- **Migrations manual**: `npx drizzle-kit push` — no package.json script, must remember
 
-2. **Set up webhook endpoint** in Razorpay Live Dashboard:
-   - Go to Razorpay Dashboard → Settings → Webhooks
-   - Add webhook URL: `https://<production-domain>/api/webhooks/razorpay`
-   - Events to subscribe: `payment.captured`
-   - Secret: use `RAZORPAY_KEY_SECRET` or generate a dedicated webhook secret (update code if using dedicated secret)
+---
 
-3. **Rate limit enforcement** — all API rate limit rules currently use `mode: "DRY_RUN"`.
-   If desired, switch to `mode: "LIVE"` per-route.
-   Routes and current settings:
+## 🔮 Future (not started)
 
-   | Route | Current | Suggestion |
-   |-------|---------|------------|
-   | `/api/checkout` | `DRY_RUN` (10 req/60s) | Keep DRY_RUN until load-tested |
-   | `/api/verify-payment` | `DRY_RUN` (20 req/60s) | Switch to LIVE |
-   | `/api/orders` | `DRY_RUN` (30 req/60s) | Switch to LIVE |
-   | `/api/interest` | `DRY_RUN` (10 req/60s) | Switch to LIVE |
-   | `/api/admin/orders` | `DRY_RUN` (30 req/60s) | Switch to LIVE |
-   | `/api/webhooks/razorpay` | No rate limit rule | Add slidingWindow `LIVE` (30 req/60s) |
-
-4. **Verify end-to-end:**
-   - Place a test order with an admin email (will create ₹1 Razorpay order with live keys)
-   - Complete payment in Razorpay test/live checkout UI
-   - Verify webhook fires and updates order status
-   - Check `/api/orders` returns correct status
-
-5. **Rollback plan:** Keep old test keys saved in password manager or docs/.
-   Revert `.env` keys and change `mode: "LIVE"` back to `"DRY_RUN"` if issues arise.
-
-**No code changes needed** — the app reads keys from `.env` via `@/env` at runtime.
-`razorpay.ts` (line 4-7) already uses `env.RAZORPAY_KEY_ID` and `env.RAZORPAY_KEY_SECRET`.
-All HMAC signatures and webhook verification use the same env vars.
-
-**Commit (single — just env changes + arcjet mode toggle):**
-```
-feat: switch Razorpay to live mode
-
-Replace test API keys with live keys in .env.
-Switch Arcjet rate limits from DRY_RUN to LIVE
-on order/payment/interest routes.
-Configure webhook URL in Razorpay live dashboard.
-```
-
-**Note:** Environment variable change requires a production rebuild/restart.
-On Vercel, update env vars in project settings and redeploy — don't commit live keys to the repo.
-On self-hosted, update `.env` on the server and restart the process.
-
-### 3. Add a spinner or loader in Google auth button when it goes into loading mode. 
+- Product JSON-LD + BreadcrumbList structured data
+- Failure/refund payment tracking
+- Multi-device cart sync (server-side cart)
+- CMS integration
+- Email/SMS notifications on payment/status change
+- Hreflang for Hindi content
+- Rate limit LIVE enforcement
