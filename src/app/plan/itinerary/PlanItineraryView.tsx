@@ -22,7 +22,7 @@ export default function PlanItineraryView() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white/90 pt-24 pb-16">
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-4">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
           {charDhamYatra.title}
         </h1>
@@ -89,12 +89,29 @@ function MobileView({ days }: { days: ItineraryDay[] }) {
             value={day.dayNumber.toString()}
             className="border-[#1a1c1c]"
           >
-            <AccordionTrigger className="px-0 py-4 hover:no-underline">
-              <div className="flex flex-col items-start">
-                <span className="text-[#f48b29] font-bold text-lg">
-                  Day {day.dayNumber}
-                </span>
-                <span className="text-sm text-white/60">{day.location}</span>
+            <AccordionTrigger className="px-0 py-2 hover:no-underline">
+              <div className="flex flex-col items-start w-full gap-2">
+                <div className="relative h-24 w-full rounded-lg overflow-hidden bg-[#1a1c1c]">
+                  <Image
+                    src={day.heroImage}
+                    alt={day.title}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+                <div className="flex flex-col items-start px-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#f48b29] font-bold text-lg">
+                      Day {day.dayNumber}
+                    </span>
+                    <span className="text-white font-semibold">{day.title}</span>
+                  </div>
+                  <span className="text-sm text-white/60">{day.location}</span>
+                  <p className="text-sm text-white/50 text-left line-clamp-2 mt-1">
+                    {day.description}
+                  </p>
+                </div>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pb-4">
