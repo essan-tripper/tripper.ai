@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import JournalInterest from "./JournalInterest";
+
+export const metadata: Metadata = {
+  title: "Merch Store",
+  description:
+    "Shop premium pilgrimage merchandise — sacred magnets, cinematic posters, and spiritual souvenirs from Char Dham and beyond. Carry the spirit of the yatra with you.",
+  openGraph: {
+    title: "Merch Store | Tripper by Essan",
+    description: "Shop premium pilgrimage merchandise and sacred souvenirs.",
+  },
+};
 
 const products = [
   {

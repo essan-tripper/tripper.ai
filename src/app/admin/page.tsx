@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -5,6 +6,11 @@ import { db } from "@/lib/db/client";
 import { orders, orderItems, user, interestEmails } from "@/lib/db/schema";
 import { eq, desc, isNull } from "drizzle-orm";
 import AdminDashboard from "./AdminDashboard";
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard",
+  robots: { index: false, follow: false },
+};
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS || "").split(",").map(e => e.trim().toLowerCase());
 

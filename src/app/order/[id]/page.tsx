@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle, ShoppingBag, Package } from "lucide-react";
 import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getOrderById } from "@/lib/order-queries";
+
+export const metadata: Metadata = {
+  title: "Order Confirmation",
+  robots: { index: false, follow: false },
+};
 
 export default async function OrderConfirmationPage(props: {
   params: Promise<{ id: string }>;

@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getUserAddresses } from "@/lib/address-actions";
 import AccountShell from "./AccountShell";
+
+export const metadata: Metadata = {
+  title: "My Account",
+  robots: { index: false, follow: false },
+};
 
 export default async function AccountPage(props: { searchParams: Promise<{ address?: string }> }) {
   const searchParams = await props.searchParams;

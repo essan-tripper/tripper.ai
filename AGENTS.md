@@ -14,6 +14,7 @@ Next.js 15 App Router + TypeScript (strict). Merch store selling pilgrimage-them
 | `AGENTS.md` | This file — repo rules, architecture, conventions |
 | `CHANGELOG.md` | Version history — what changed, when, and why |
 | `PROGRESS.md` | Current state — done, in-progress, risky |
+| `docs/seo/` | SEO infrastructure notes (if populated) |
 
 ## Commands
 
@@ -265,6 +266,9 @@ src/
     page.tsx              # Homepage (Hero + Destinations + Merch + Footer)
     layout.tsx            # Root layout with fonts, AuthProvider, Navbar, Toaster
     globals.css           # Tailwind v4 config, theme variables, custom animations
+    robots.ts             # robots.txt — allow all, sitemap link
+    sitemap.ts            # XML sitemap — 9 public URLs with priority
+    not-found.tsx         # Branded 404 page
     api/
       auth/[...all]/route.ts    # better-auth catch-all
       checkout/route.ts          # Create order + Razorpay order
@@ -313,6 +317,8 @@ src/
       auth-client.ts      # better-auth browser client
       client.ts           # Drizzle postgres client
       schema.ts           # All DB tables
+    seo/
+      json-ld.tsx         # Reusable <JsonLd> component for structured data
     cart-store.ts         # Zustand cart store
     razorpay.ts           # Razorpay SDK instance
     arcjet.ts             # Arcjet config
@@ -378,3 +384,51 @@ prefix_nanoid(16)
 7. **Razorpay test mode** — using test keys. Switch to live keys and update webhook URL before real transactions.
 8. **No CMS** — product data is hardcoded in components. Adding products requires code changes.
 9. **Don't delete `src/data/pincode-ranges.ts`** — it's auto-generated and the pincode lookup depends on it.
+
+## SEO
+
+### Infrastructure (implemented)
+
+| File | Purpose |
+|------|---------|
+| `src/app/robots.ts` | robots.txt — allows all, disallows `/admin/`, `/api/`, `/account`, `/cart`, `/order`. Points to sitemap. |
+| `src/app/sitemap.ts` | 9 public URLs with priority tiers (1.0 homepage, 0.9 product pages, 0.7 content, 0.3 auth) |
+| `src/app/not-found.tsx` | Branded 404 page — prevents soft 404s |
+| `src/lib/seo/json-ld.tsx` | `<JsonLd>` component — renders `application/ld+json` script tags |
+| `next.config.ts` | `poweredByHeader: false` |
+
+### Layout metadata (root)
+
+- `metadataBase`: `https://tripperbyessan.com`
+- `title.template`: `%s | Tripper by Essan`
+- Full OG (`type`, `siteName`, `locale`), Twitter (`card: summary_large_image`), icons, `verification` (GSC placeholder)
+- JSON-LD `Organization` schema inlined in body
+
+### Per-page metadata
+
+Every public route has `generateMetadata` or static `metadata` export:
+- Public pages: unique `title`, `description`, `openGraph.title`, `openGraph.description`
+- Auth/account/admin pages: `robots: { index: false, follow: false }`
+- `metadata` exported from page.tsx — Next.js App Router merges it with root layout's `title.template`
+
+### Remaining SEO gaps
+
+- **favicon.ico** — path defined in layout, file must exist in `public/`
+- **apple-touch-icon.png** — path defined in layout, file must exist in `public/`
+- **og-image.jpg** — default OG image referenced in metadata, create in `public/`
+- **Google Search Console** — replace placeholder in `layout.tsx:69`
+- **Product JSON-LD** — `Product` + `ItemList` schemas on magnet/poster pages (future)
+- **BreadcrumbList** — structured breadcrumbs for merch/magnets/posters pages (future)
+- **Hreflang** — not needed (single-language site) but add if Hindi content added later
+
+### Favicon assets (deployed in `public/`)
+
+| File | Purpose |
+|------|---------|
+| `favicon.ico` | Legacy fallback |
+| `favicon.svg` | Modern SVG favicon |
+| `favicon-96x96.png` | 96px PNG for browsers that prefer it |
+| `apple-touch-icon.png` | iOS home screen icon |
+| `site.webmanifest` | PWA manifest (name: Tripper by Essan, theme: #0a0a0a) |
+| `web-app-manifest-192x192.png` | PWA icon 192px |
+| `web-app-manifest-512x512.png` | PWA icon 512px |

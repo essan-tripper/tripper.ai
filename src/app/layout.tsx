@@ -21,22 +21,74 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   subsets: ["latin"],
   weight: "400",
+  display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Tripper.AI | Spiritual Journeys in India",
-  description: "Discover the divine path to Kedarnath, Char Dham, and India's most sacred spiritual destinations.",
+  metadataBase: new URL("https://tripperbyessan.com"),
+  title: {
+    template: "%s | Tripper by Essan",
+    default: "Tripper by Essan — Spiritual Journeys in India",
+  },
+  description:
+    "Discover the divine path to Kedarnath, Char Dham, and India's most sacred spiritual destinations. Premium pilgrimage magnets, posters, and travel resources.",
+  keywords: ["pilgrimage", "Char Dham", "Kedarnath", "spiritual travel", "India travel", "pilgrimage merchandise", "travel souvenirs"],
+  openGraph: {
+    type: "website",
+    siteName: "Tripper by Essan",
+    title: "Tripper by Essan — Spiritual Journeys in India",
+    description:
+      "Discover the divine path to Kedarnath, Char Dham, and India's most sacred spiritual destinations. Premium pilgrimage magnets, posters, and travel resources.",
+    url: "https://tripperbyessan.com",
+    images: [
+      {
+        url: "/LOGO.png",
+        width: 512,
+        height: 512,
+        alt: "Tripper by Essan",
+      },
+    ],
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tripper by Essan",
+    description:
+      "Discover the divine path to Kedarnath, Char Dham, and India's most sacred spiritual destinations.",
+    images: ["/LOGO.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  verification: {
+    google: "YOUR_GOOGLE_SEARCH_CONSOLE_ID", // placeholder — replace when live
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+  alternates: {
+    canonical: "https://tripperbyessan.com",
+  },
 };
 
 export default async function RootLayout({
@@ -64,6 +116,25 @@ export default async function RootLayout({
       <body
         className={`${instrumentSerif.variable} ${inter.variable} ${playfairDisplay.variable} antialiased ${cinzel.variable}`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Tripper by Essan",
+              url: "https://tripperbyessan.com",
+              logo: "https://tripperbyessan.com/LOGO.png",
+              description:
+                "Discover the divine path to Kedarnath, Char Dham, and India's most sacred spiritual destinations.",
+              foundingDate: "2025",
+              founder: {
+                "@type": "Person",
+                name: "Essan Srivastava",
+              },
+            }),
+          }}
+        />
         <SpeedInsights/>
         <Analytics/>
         <AuthProvider initialSession={initialSession}>

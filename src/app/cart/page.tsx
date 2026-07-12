@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import CartComponent from "./CartComponent";
+
+export const metadata: Metadata = {
+  title: "Shopping Cart",
+  robots: { index: false, follow: false },
+};
 
 export default function CartPage() {
   return (

@@ -5,7 +5,40 @@ Format: Date [Version] — What changed (files affected, notable behavior shifts
 
 ---
 
-## v0.5.0 — 2026-07-07
+## v0.6.0 — 2026-07-12
+**SEO sprint — full metadata, sitemap, robots, JSON-LD, not-found**
+- **Root layout** (`src/app/layout.tsx`): Complete metadata rewrite — added `metadataBase`
+  (`https://tripperbyessan.com`), `title.template` (`%s | Tripper by Essan`), `openGraph` (type,
+  siteName, locale, url, images via `/LOGO.png`), `twitter:card` (summary_large_image + image),
+  `robots`, `icons` (favicon.ico, favicon.svg, favicon-96x96.png, apple-touch-icon.png),
+  `manifest` (site.webmanifest), `verification` (GSC placeholder), `alternates.canonical`.
+  JSON-LD `Organization` schema inlined. Font display fixed: all 4 fonts now use
+  `display: "swap"`.
+- **Per-page metadata**: All 14 routes now export static `metadata` or `generateMetadata` with
+  unique `title`, `description`, `openGraph` per page. Auth/account/cart/order/admin pages set
+  `robots: { index: false, follow: false }`. (`src/app/page.tsx`, `merch/page.tsx`,
+  `magnets/page.tsx`, `posters/page.tsx`, `cart/page.tsx`, `order/page.tsx`,
+  `order/[id]/page.tsx`, `account/page.tsx`, `sign-in/page.tsx`, `sign-up/page.tsx`,
+  `about-us/page.tsx`, `privacy-policy/page.tsx`, `course/page.tsx`, `admin/page.tsx`)
+- **Client page metadata** — 4 new layout.tsx wrappers (`sign-in/layout.tsx`,
+  `sign-up/layout.tsx`, `about-us/layout.tsx`, `course/layout.tsx`) because `"use client"`
+  components cannot export `metadata`.
+- **robots.txt** (`src/app/robots.ts`): Allow all, disallow admin/api/account/cart/order.
+- **Sitemap** (`src/app/sitemap.ts`): 9 public URLs with priority tiers and change frequency.
+- **not-found.tsx** (`src/app/not-found.tsx`): Branded 404 page — prevents soft 404s.
+- **JSON-LD helper** (`src/lib/seo/json-ld.tsx`): Reusable `<JsonLd>` component for structured data.
+- **next.config.ts**: Added `poweredByHeader: false`.
+- **Favicon assets**: `public/favicon.ico`, `favicon.svg`, `favicon-96x96.png`,
+  `apple-touch-icon.png` deployed. `site.webmanifest` updated with brand colors (#0a0a0a
+  theme/background). (`public/site.webmanifest`)
+- **Docs**: Added SEO section to `AGENTS.md` (infrastructure table, layout metadata, per-page
+  metadata, remaining gaps, favicon assets table). Updated `PROGRESS.md` with full SEO design
+  decisions.
+- **Remaining**: Create `public/og-image.jpg`, replace GSC placeholder. Product JSON-LD and
+  BreadcrumbList for future.
+- No database schema changes.
+
+---
 **Auth performance — cookie cache + server-prefetched session**
 - Enabled better-auth **cookie cache** (`session.cookieCache`, `maxAge` 5 min) in `src/lib/db/auth.ts`.
   Repeat `getSession`/`useSession` calls now read a signed cookie instead of hitting Postgres

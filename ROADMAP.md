@@ -1,5 +1,13 @@
 ## FEATURES
 
+### ✓ SEO Sprint — Completed 2026-07-12
+
+Full metadata overhaul: root layout with metadataBase, title template, OG/Twitter/verification/icons/manifest. Per-page metadata on all 14 routes. robots.txt, sitemap.xml, not-found.tsx, JSON-LD Organization schema. Favicon assets deployed (ico, svg, 96x96, apple-touch, webmanifest). font-display: swap fixed. poweredByHeader removed.
+
+**Remaining:** og-image.jpg, GSC placeholder swap, Product/BreadcrumbList JSON-LD (future).
+
+---
+
 ## UI / UX
 
 Changes ordered by complexity (easiest first). Each item has a git commit message — agent can implement then commit before moving to next. THIS IS IMPORTANT, AFTER EVERY FEATURE CHANGE YOU MUST COMMIT THE CHANGES THEN ONLY MOVE AHEAD.
