@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PlanItineraryView from "./PlanItineraryView";
+import { CtaPlaceholder } from "@/lib/plan/cta-placeholder";
 
 export const metadata: Metadata = {
   title: "Interactive Itinerary — How We Plan a Trip",
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function ItineraryPage() {
-  return <PlanItineraryView />;
+  return (
+    <>
+      <PlanItineraryView />
+      <CtaPlaceholder />
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PlanMapView from "./PlanMapView";
+import { CtaPlaceholder } from "@/lib/plan/cta-placeholder";
 
 export const metadata: Metadata = {
   title: "SVG Map — How We Plan a Trip",
@@ -11,5 +12,10 @@ export const metadata: Metadata = {
 };
 
 export default function MapPage() {
-  return <PlanMapView />;
+  return (
+    <>
+      <PlanMapView />
+      <CtaPlaceholder />
+    </>
+  );
 }

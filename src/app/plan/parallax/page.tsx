@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PlanParallaxView from "./PlanParallaxView";
+import { CtaPlaceholder } from "@/lib/plan/cta-placeholder";
 
 export const metadata: Metadata = {
   title: "Parallax — How We Plan a Trip",
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function ParallaxPage() {
-  return <PlanParallaxView />;
+  return (
+    <>
+      <PlanParallaxView />
+      <CtaPlaceholder />
+    </>
+  );
 }
