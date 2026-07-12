@@ -1,13 +1,14 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 import type { ItineraryDay } from "@/data/itineraries";
 
 type GlobeSceneProps = {
   days: ItineraryDay[];
+  reducedMotion: boolean;
 };
 
 function latLngToVector3(
@@ -109,19 +110,19 @@ function Marker({
   );
 }
 
-export default function GlobeScene({ days }: GlobeSceneProps) {
+export default function GlobeScene({ days, reducedMotion }: GlobeSceneProps) {
+  const { camera } = useThree();
   const groupRef = useRef<THREE.Group>(null);
   const glowRef = useRef<THREE.Mesh>(null);
   const [selectedDay, setSelectedDay] = useState<ItineraryDay | null>(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [targetPos, setTargetPos] = useState<THREE.Vector3 | null>(null);
 
   useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
+    if (selectedDay) {
+      const pos = latLngToVector3(selectedDay.coords.lat, selectedDay.coords.lng, 2.5);
+      setTargetPos(pos);
+    }
+  }, [selectedDay]);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
@@ -129,6 +130,15 @@ export default function GlobeScene({ days }: GlobeSceneProps) {
     }
     if (glowRef.current) {
       glowRef.current.rotation.y += delta * (reducedMotion ? 0 : 0.15);
+    }
+    if (targetPos) {
+      camera.position.lerp(targetPos, 0.05);
+      camera.lookAt(0, 0, 0);
+      if (camera.position.distanceTo(targetPos) < 0.01) {
+        camera.position.copy(targetPos);
+        camera.lookAt(0, 0, 0);
+        setTargetPos(null);
+      }
     }
   });
 

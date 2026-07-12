@@ -9,12 +9,21 @@ import { charDhamYatra } from "@/data/itineraries";
 
 export default function PlanThreeDView() {
   const [isMobile, setIsMobile] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
   }, []);
 
   if (isMobile) {
@@ -41,12 +50,12 @@ export default function PlanThreeDView() {
         <color attach="background" args={["#0a0a0a"]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
-        <GlobeScene days={charDhamYatra.days} />
+        <GlobeScene days={charDhamYatra.days} reducedMotion={reducedMotion} />
         <OrbitControls
           enablePan={false}
           minDistance={2}
           maxDistance={8}
-          autoRotate
+          autoRotate={!reducedMotion}
           autoRotateSpeed={0.5}
         />
       </Canvas>
