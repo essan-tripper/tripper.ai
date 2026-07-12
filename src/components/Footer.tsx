@@ -48,6 +48,9 @@ export default function Footer() {
             <Link href="/about-us" className="text-white/50 hover:text-white text-xs sm:text-sm transition-colors">
               About Us
             </Link>
+            <Link href="/plan" className="text-white/50 hover:text-white text-xs sm:text-sm transition-colors">
+              Plan
+            </Link>
             <a href="mailto:srivastava.essan@gmail.com" className="text-white/50 hover:text-white text-xs sm:text-sm transition-colors">
               Contact
             </a>

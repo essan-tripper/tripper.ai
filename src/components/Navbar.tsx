@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Menu, LogOut, ShoppingBag, Package, User } from "lucide-react";
+import { Menu, LogOut, ShoppingBag, Package, User, Route } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { label: "Home", href: "/", icon: null },
+  { label: "Plan", href: "/plan", icon: Route },
   { label: "Merch", href: "/merch", icon: ShoppingBag },
   { label: "Order", href: "/order", icon: Package },
   { label: "Cart", href: "/cart", icon: ShoppingBag },
