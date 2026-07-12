@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "An interactive SVG map of India with an animated route polyline through the Char Dham stops.",
   openGraph: {
     title: "SVG Map — How We Plan a Trip | Tripper by Essan",
-    description: "Watch the Char Dham route draw across an interactive SVG map.",
+    description: "Watch the Char Dham route draw across India.",
   },
 };
 
