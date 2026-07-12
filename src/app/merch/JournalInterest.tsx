@@ -34,8 +34,8 @@ export default function JournalInterest() {
       toast.success("Thanks! We'll keep you posted.");
       setEmail("");
       setOpen(false);
-    } catch (err: any) {
-      toast.error(err.message || "Failed to submit");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Failed to submit");
     } finally {
       setLoading(false);
     }

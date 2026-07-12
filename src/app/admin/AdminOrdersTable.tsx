@@ -67,10 +67,6 @@ export default function AdminOrdersTable({ orders }: { orders: Order[] }) {
     return pendingStatuses[order.id] ?? order.deliveryStatus ?? "pending";
   }
 
-  function hasChanged(order: Order): boolean {
-    return getPendingStatus(order) !== (order.deliveryStatus ?? "pending");
-  }
-
   async function handleUpdate(orderId: string) {
     const newStatus = pendingStatuses[orderId];
     if (!newStatus) return;

@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Play, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import LoadingLink from "@/components/LoadingLink";
 
 export default function HeroSection() {

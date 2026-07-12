@@ -155,8 +155,6 @@ export function ChardhamCarousel() {
     emblaApi?.scrollNext();
   }, [emblaApi]);
 
-  const dham = dhams[current];
-
   const handleStartYatra = (d: (typeof dhams)[0]) => {
     setSelectedDham(d);
     setModalOpen(true);

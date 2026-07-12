@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { CheckCircle, ShoppingBag, Package } from "lucide-react";
 import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
@@ -75,9 +76,11 @@ export default async function OrderConfirmationPage(props: {
               <div key={item.id} className="flex items-center gap-4">
                 <div className="w-14 h-14 rounded-md bg-white/5 overflow-hidden shrink-0 flex items-center justify-center">
                   {item.image ? (
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.label}
+                      width={56}
+                      height={56}
                       className="w-full h-full object-cover"
                     />
                   ) : (

@@ -19,7 +19,7 @@ export default function LoadingLink({ href, children }: LoadingLinkProps) {
   };
 
   return cloneElement(children, {
-    onClick: (e: any) => {
+    onClick: (e: React.MouseEvent) => {
       children.props.onClick?.(e);
       if (!e?.defaultPrevented) navigate();
     },

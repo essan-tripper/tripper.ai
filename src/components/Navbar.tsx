@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu, LogOut, ShoppingBag, Package, User } from "lucide-react";

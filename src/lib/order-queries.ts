@@ -24,6 +24,7 @@ export type OrderWithItems = {
   }[];
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function groupOrderRows(rows: any[]) {
   const orderMap = new Map<string, OrderWithItems>();
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Package, ShoppingBag } from "lucide-react";
 
 type OrderItem = {
@@ -145,9 +146,11 @@ export default function OrderComponent({ orders }: { orders: OrderWithItems[] })
                   >
                     <div className="w-12 h-12 rounded-md bg-white/5 overflow-hidden shrink-0 flex items-center justify-center">
                       {item.image ? (
-                        <img
+                        <Image
                           src={item.image}
                           alt={item.label}
+                          width={48}
+                          height={48}
                           className="w-full h-full object-cover"
                         />
                       ) : (

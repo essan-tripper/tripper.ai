@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCallback, useDeferredValue, useState, useRef, useEffect } from "react";
@@ -8,6 +7,16 @@ import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayError {
+  error?: { description?: string };
+}
 import LoadingLink from "@/components/LoadingLink";
 import { getUserAddresses } from "@/lib/address-actions";
 
@@ -61,7 +70,7 @@ export default function CartComponent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: deferredItems.map(({ id, productType, label, image, price, quantity }) => ({
+          items: deferredItems.map(({ productType, label, image, price, quantity }) => ({
             productType, label, image, price, quantity,
           })),
           addressId: defaultAddress.id,
@@ -90,7 +99,7 @@ export default function CartComponent() {
         name: "Tripper.ai",
         order_id: data.razorpayOrderId,
         
-        handler: async (response: any) => {
+        handler: async (response: RazorpayResponse) => {
           setShowRerouting(true);
           const verifyRes = await fetch("/api/verify-payment", {
             method: "POST",
@@ -123,8 +132,9 @@ export default function CartComponent() {
         theme: { color: "#f48b29" },
       };
 
-      const rzp = new (window as any).Razorpay(options);
-      rzp.on("payment.failed", (response: any) => {
+      const RazorpayConstructor = (window as unknown as { Razorpay: new (o: typeof options) => { open: () => void; on: (e: string, cb: (r: RazorpayError) => void) => void } }).Razorpay;
+      const rzp = new RazorpayConstructor(options);
+      rzp.on("payment.failed", (response: RazorpayError) => {
         setShowOverlay(false);
         toast.error(response.error?.description || "Payment failed");
         setIsProcessing(false);

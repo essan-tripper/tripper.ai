@@ -68,6 +68,7 @@ export default async function AdminPage() {
       .orderBy(desc(user.createdAt)),
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const orderMap = new Map<string, any>();
   for (const row of orderRows) {
     if (!orderMap.has(row.id)) {

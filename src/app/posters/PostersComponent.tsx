@@ -55,7 +55,7 @@ const specifications = [
 export default function PostersComponent() {
   const router = useRouter();
   const { data: sessionData, isPending } = useSession();
-  const { items, addItem, updateQuantity, removeItem } = useCartStore();
+  const { items, addItem, updateQuantity } = useCartStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const posterId = "poster-kedarnath";

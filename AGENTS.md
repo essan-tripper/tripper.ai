@@ -23,8 +23,10 @@ Next.js 15 App Router + TypeScript (strict). Merch store selling pilgrimage-them
 | `npm run dev` | Dev server (Turbopack) on :3000 |
 | `npm run build` | Production build (Turbopack) |
 | `npm run start` | Serve production build |
+| `npm run lint` | ESLint (Next.js config, zero warnings policy) |
+| `npm run typecheck` | TypeScript type-check (`tsc --noEmit`) |
 
-No `lint`, `typecheck`, or test scripts exist. No CI/CD configured.
+CI/CD via GitHub Actions (`.github/workflows/ci.yml`) — runs `typecheck`, `lint`, `build` on push/PR to `main`.
 
 ## Domain Language
 
