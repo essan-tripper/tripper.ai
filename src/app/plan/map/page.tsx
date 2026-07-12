@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PlanMapView from "./PlanMapView";
 
 export const metadata: Metadata = {
   title: "SVG Map — How We Plan a Trip",
@@ -10,9 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function MapPage() {
-  return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white pt-24 flex items-center justify-center">
-      <p className="text-white/40 text-lg">SVG Map View — Coming Soon</p>
-    </main>
-  );
+  return <PlanMapView />;
 }
