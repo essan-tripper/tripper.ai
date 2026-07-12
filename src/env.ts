@@ -12,6 +12,7 @@ export const env = createEnv({
     RAZORPAY_KEY_SECRET: z.string().optional(),
     ARCJET_KEY: z.string(),
     ADMIN_EMAILS: z.string().optional(),
+    PLANNING_APPS_SCRIPT_URL: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -27,6 +28,7 @@ export const env = createEnv({
     RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
     ARCJET_KEY: process.env.ARCJET_KEY,
     ADMIN_EMAILS: process.env.ADMIN_EMAILS,
+    PLANNING_APPS_SCRIPT_URL: process.env.PLANNING_APPS_SCRIPT_URL,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_RAZORPAY_KEY_ID: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
   },
