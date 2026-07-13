@@ -24,7 +24,7 @@ export const charDhamYatra: Itinerary = {
   title: "Char Dham Yatra",
   durationDays: 8,
   coverImage:
-    "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/cover",
+    "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384111/Kedarnath_mg8mev.jpg",
   summary:
     "An 8-day spiritual journey through the Garhwal Himalayas, visiting the four sacred shrines of Yamunotri, Gangotri, Kedarnath, and Badrinath.",
   days: [
@@ -36,7 +36,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "Arrive in the holy city of Haridwar, where the Ganges descends to the plains. Check into your guesthouse and spend the evening witnessing the spectacular Ganga Aarti at Har Ki Pauri.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-1-arrival-in-haridwar",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/dwarka_tznnnm.jpg",
       highlights: [
         "Ganga Aarti at Har Ki Pauri",
         "Evening boat ride on the Ganges",
@@ -52,7 +52,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "A scenic drive through the Shivalik hills takes you to Barkot, a quiet town with panoramic views of the snow-capped Bandarpunch peak. Rest and acclimatize for tomorrow's journey.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-2-haridwar-to-barkot",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384109/Rameshwaram_zbtrll.jpg",
       highlights: [
         "Scenic drive through Shivalik hills",
         "Views of Bandarpunch peak",
@@ -68,7 +68,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "A short drive to Janki Chatti followed by a 6 km trek (or pony/palanquin ride) to the Yamunotri temple — the source of the Yamuna River. Soak in the thermal springs at Surya Kund.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-3-yamunotri-darshan",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Yamunotri_w0upb1.jpg",
       highlights: [
         "Trek to Yamunotri temple (6 km)",
         "Thermal springs at Surya Kund",
@@ -84,7 +84,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "Travel deeper into the Garhwal Himalayas to Uttarkashi, home to the Neelkanth temple and the Nehru Institute of Mountaineering. Visit the Vishwanath temple in the evening.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-4-barkot-to-uttarkashi",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Jagannath_ths5zz.jpg",
       highlights: [
         "Visit Nehru Institute of Mountaineering",
         "Vishwanath temple evening aarti",
@@ -100,7 +100,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "Drive to Gangotri, the origin of the Bhagirathi River (Ganges). The temple sits at 3,100m surrounded by majestic peaks. Spend time at the riverbank and visit the submerged Shivlinga rock.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-5-gangotri-darshan",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384108/gangotri_h5odhj.jpg",
       highlights: [
         "Gangotri temple at 3,100m",
         "Submerged Shivlinga rock formation",
@@ -116,7 +116,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "A long drive through Rudraprayag and Kund to Guptkashi. From here, a helicopter ride (or 16 km trek) takes you to the Kedarnath temple — one of the twelve Jyotirlingas, set against the breathtaking Kedarnath range.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-6-uttarkashi-to-kedarnath",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384111/Kedarnath_mg8mev.jpg",
       highlights: [
         "Helicopter ride to Kedarnath (or trek)",
         "Darshan at the Jyotirlinga temple",
@@ -132,7 +132,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "Descend from Kedarnath and drive via the confluence of Alaknanda and Mandakini rivers at Rudraprayag to Badrinath. Visit the Badrinath temple dedicated to Lord Vishnu, nestled between the Nar and Narayana mountain ranges.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-7-kedarnath-to-badrinath",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/badri_cgzxnb.jpg",
       highlights: [
         "Badrinath temple darshan",
         "Confluence of Alaknanda and Mandakini",
@@ -148,7 +148,7 @@ export const charDhamYatra: Itinerary = {
       description:
         "After morning darshan at Badrinath, begin the return journey to Haridwar via Rishikesh. Depart with memories of a lifetime. The journey ends, but the pilgrimage stays with you.",
       heroImage:
-        "https://res.cloudinary.com/demo/image/upload/v1/tripper/char-dham/day-8-badrinath-to-haridwar-departure",
+        "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/dwarka_tznnnm.jpg",
       highlights: [
         "Morning aarti at Badrinath",
         "Drive through Rishikesh",

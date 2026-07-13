@@ -88,5 +88,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${base}/plan/travel-jyotirlingas`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    { url: `${base}/travel/kedarnath`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/badrinath`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/gangotri`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/yamunotri`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/dwarka`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/puri`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/travel/rameshwaram`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
   ];
 }

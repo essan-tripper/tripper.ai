@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Map, Globe2, ScrollText, Route } from "lucide-react";
+import { Map, Globe2, ScrollText, Route, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const planVariants = [
@@ -29,6 +29,13 @@ const planVariants = [
     icon: Route,
     description: "Browse day-by-day cards with photos and highlights.",
   },
+  {
+    label: "Parallax SVG Map",
+    href: "/plan/travel-jyotirlingas",
+    icon: Compass,
+    description: "Follow the 12 Jyotirlingas pilgrimage in order. The map stays fixed as a pin glides through the stops.",
+    isFullWidth: true,
+  },
 ];
 
 export default function PlanHub() {
@@ -52,7 +59,7 @@ export default function PlanHub() {
             className="mt-4 text-sm sm:text-base text-white/50 max-w-lg mx-auto leading-relaxed"
             style={{ fontFamily: "var(--font-inter)" }}
           >
-            Four ways to explore the journey.
+            Five ways to explore the journey.
           </p>
         </div>
 
@@ -66,7 +73,8 @@ export default function PlanHub() {
                 className={cn(
                   "group flex flex-col gap-4 rounded-xl p-6 transition-all duration-300",
                   "bg-[#1a1c1c] border border-white/10",
-                  "hover:border-[#f48b29]/60 hover:shadow-[0_0_24px_rgba(244,139,41,0.15)]"
+                  "hover:border-[#f48b29]/60 hover:shadow-[0_0_24px_rgba(244,139,41,0.15)]",
+                  variant.isFullWidth && "sm:col-span-2"
                 )}
               >
                 <Icon className="w-8 h-8 text-[#f48b29]" />

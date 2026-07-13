@@ -3,101 +3,73 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { DestinationModal } from "@/components/DestinationModal";
 
 const dhams = [
   {
     id: 1,
     name: "Kedarnath",
+    slug: "kedarnath",
     label: "SACRED CHAR DHAM",
     description:
       "Journey through the Mandakini valley to the throne of Lord Shiva, where ancient stone meets the eternal snows of the Garhwal Himalayas.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384111/Kedarnath_mg8mev.jpg",
-    modalContent: {
-      tagline: "Where Shiva resides among the clouds",
-      details:
-        "Perched at 3,583m, Kedarnath is the holiest of the 12 Jyotirlingas. The ancient temple, built in 8th century AD, survives against all odds, surrounded by snow-capped peaks.",
-    },
   },
   {
     id: 2,
     name: "Badrinath",
+    slug: "badrinath",
     label: "SACRED CHAR DHAM",
     description:
       "Ascend to the abode of Lord Vishnu nestled between the Nar and Narayan mountain ranges along the banks of the Alaknanda river.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/badri_cgzxnb.jpg",
-    modalContent: {
-      tagline: "The cosmic abode of Lord Vishnu",
-      details:
-        "Located at 3,133m between Nar and Narayan peaks, Badrinath Temple dates to the 7th century. The hot springs at Tapt Kund add to its sacred charm.",
-    },
   },
   {
     id: 3,
     name: "Gangotri",
+    slug: "gangotri",
     label: "SACRED CHAR DHAM",
     description:
       "Follow the sacred Bhagirathi river to its glacial source, where the goddess Ganga descended to earth in the high Himalayas.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384108/gangotri_h5odhj.jpg",
-    modalContent: {
-      tagline: "Source of the sacred Ganges",
-      details:
-        "Gangotri at 3,100m marks the origin of the Ganges from Gaumukh glacier. The temple, built in 18th century, sits amid pristine Himalayan beauty.",
-    },
   },
   {
     id: 4,
     name: "Yamunotri",
+    slug: "yamunotri",
     label: "SACRED CHAR DHAM",
     description:
       "Trek to the source of river Yamuna and seek the blessings of Goddess Yamunotri amidst the pristine peaks of Bandarpoonch.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Yamunotri_w0upb1.jpg",
-    modalContent: {
-      tagline: "Origin of the sacred Yamuna",
-      details:
-        "At 3,293m, Yamunotri is the birthplace of river Yamuna. The shrine near the thermal springs offers a challenging trek through alpine meadows.",
-    },
   },
   {
     id: 5,
     name: "Dwarka",
+    slug: "dwarka",
     label: "CHAR DHAM — WEST",
     description:
       "Walk the shores where Lord Krishna built his magnificent kingdom, a city of gold submerged by the sea after his departure.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/dwarka_tznnnm.jpg",
-    modalContent: {
-      tagline: "Lord Krishna's divine kingdom",
-      details:
-        "Dwarka, meaning 'Gateway to God', houses the famous Dwarkadhish temple. The city of gold now lies submerged, a testament to divine legends.",
-    },
   },
   {
     id: 6,
     name: "Puri",
+    slug: "puri",
     label: "CHAR DHAM — EAST",
     description:
       "Witness the majestic Jagannath temple on the Bay of Bengal shores, where the annual Rath Yatra draws millions of devoted pilgrims.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384110/Jagannath_ths5zz.jpg",
-    modalContent: {
-      tagline: "Home of the sacred Jagannath",
-      details:
-        "Puri's Jagannath Temple, built in 12th century, is one of the Char Dham's holiest sites. The annual Rath Yatra attracts millions worldwide.",
-    },
   },
   {
     id: 7,
     name: "Rameshwaram",
+    slug: "rameshwaram",
     label: "CHAR DHAM — SOUTH",
     description:
       "Cross the Pamban bridge to the sacred island where Lord Rama prayed before crossing to Lanka, home of the magnificent Ramanathaswamy temple.",
     image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1781384109/Rameshwaram_zbtrll.jpg",
-    modalContent: {
-      tagline: "Where Rama prayed before Lanka",
-      details:
-        "Rameshwaram is renowned for the Ramanathaswamy temple with the longest corridor in India. It marks the site where Rama worshipped before his journey to Lanka.",
-    },
   },
 ];
 
@@ -124,12 +96,11 @@ export function ChardhamCarousel() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   // FIX: added dragFree:false and watchDrag:true (defaults) to ensure swipe works reliably
+  const router = useRouter();
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
     [Autoplay({ delay: 5000, stopOnInteraction: true })]
   );
-  const [selectedDham, setSelectedDham] = useState<(typeof dhams)[0] | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
   // FIX: onSelect is the single source of truth for `current` state.
   // Previously jumpToSlide also called go() directly, causing a desync
@@ -160,8 +131,7 @@ export function ChardhamCarousel() {
   }, [emblaApi]);
 
   const handleStartYatra = (d: (typeof dhams)[0]) => {
-    setSelectedDham(d);
-    setModalOpen(true);
+    router.push(`/travel/${d.slug}`);
   };
 
   // FIX: only call emblaApi.scrollTo — let the "select" event update React state.
@@ -280,11 +250,6 @@ export function ChardhamCarousel() {
         ))}
       </div>
 
-      <DestinationModal
-        dham={selectedDham}
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-      />
     </div>
   );
 }
