@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   }
 
   const expected = crypto
-    .createHmac("sha256", env.RAZORPAY_KEY_SECRET ?? "")
+    .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
     .update(rawBody)
     .digest("hex");
 
