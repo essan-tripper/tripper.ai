@@ -6,6 +6,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } f
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
+import { getCheckoutProduct, PACK_CART_ID_PREFIX } from "@/lib/products";
 import { useSession } from "@/components/providers/auth-provider";
 import { Plus, Minus } from "lucide-react";
 import { ProductZoom } from "@/components/ProductZoom";
@@ -135,16 +136,19 @@ export default function MagnetsComponent() {
   }, [currentVariant, currentMagnetId, addItem]);
 
   const handlePackAddToCart = useCallback(() => {
-    selectedShrines.forEach((shrineId) => {
-      const shrine = magnetVariants.find(v => v.id === shrineId)!;
-      addItem({
-        id: `magnet-${shrineId}`,
-        productType: "magnet",
-        label: shrine.label,
-        image: shrine.image,
-        price: Math.round(399 / 4),
-        quantity: 1,
-      });
+    if (selectedShrines.length !== 4) return;
+
+    const packId = `${PACK_CART_ID_PREFIX}${[...selectedShrines].sort().join(",")}`;
+    const pack = getCheckoutProduct(packId);
+    if (!pack) return;
+
+    addItem({
+      id: packId,
+      productType: pack.productType,
+      label: pack.label,
+      image: pack.image,
+      price: pack.price,
+      quantity: 1,
     });
     setPackSheetOpen(false);
     toast.success("Pack of 4 added to cart!");

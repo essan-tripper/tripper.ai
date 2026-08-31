@@ -28,6 +28,8 @@ export type CheckoutProduct = Product & {
   productType: "magnet" | "poster";
 };
 
+export const PACK_CART_ID_PREFIX = "magnet-pack:";
+
 export const checkoutProducts = new Map<string, CheckoutProduct>();
 
 for (const variant of magnetVariants) {
@@ -43,3 +45,26 @@ checkoutProducts.set(posterProduct.id, {
   productType: "poster",
   ...posterProduct,
 });
+
+export function getCheckoutProduct(id: string): CheckoutProduct | undefined {
+  const product = checkoutProducts.get(id);
+  if (product) return product;
+
+  if (!id.startsWith(PACK_CART_ID_PREFIX)) return undefined;
+
+  const shrineIds = id.slice(PACK_CART_ID_PREFIX.length).split(",");
+  if (shrineIds.length !== 4 || new Set(shrineIds).size !== 4) return undefined;
+
+  const shrines = shrineIds.map((shrineId) =>
+    checkoutProducts.get(`magnet-${shrineId}`)
+  );
+  if (shrines.some((shrine) => !shrine)) return undefined;
+
+  return {
+    id,
+    productType: "magnet",
+    label: `Pack of 4 (${shrines.map((shrine) => shrine!.label).join(", ")})`,
+    image: magnetVariants.find((variant) => variant.id === "pack")!.image,
+    price: magnetVariants.find((variant) => variant.id === "pack")!.price,
+  };
+}

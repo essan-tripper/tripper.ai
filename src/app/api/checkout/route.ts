@@ -10,7 +10,7 @@ import { razorpay } from "@/lib/razorpay";
 import { aj } from "@/lib/arcjet";
 import { slidingWindow } from "@arcjet/next";
 import { z } from "zod";
-import { checkoutProducts } from "@/lib/products";
+import { checkoutProducts, getCheckoutProduct } from "@/lib/products";
 
 const MAX_CHECKOUT_ITEMS = checkoutProducts.size;
 
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   }
 
   const items = requestedItems.map((item) => {
-    const product = checkoutProducts.get(item.id);
+    const product = getCheckoutProduct(item.id);
     return product ? { ...product, quantity: item.quantity } : null;
   });
 
