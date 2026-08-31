@@ -70,9 +70,7 @@ export default function CartComponent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: deferredItems.map(({ productType, label, image, price, quantity }) => ({
-            productType, label, image, price, quantity,
-          })),
+          items: deferredItems.map(({ id, quantity }) => ({ id, quantity })),
           addressId: defaultAddress.id,
         }),
       });

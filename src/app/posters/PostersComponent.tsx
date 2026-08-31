@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
 import { ProductZoom } from "@/components/ProductZoom";
+import { posterProduct } from "@/lib/products";
 
 const images = [
   "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
@@ -58,16 +59,16 @@ export default function PostersComponent() {
   const { items, addItem, updateQuantity } = useCartStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const posterId = "poster-kedarnath";
+  const posterId = posterProduct.id;
   const cartItem = items.find((i) => i.id === posterId);
 
   const handleAddToCart = useCallback(() => {
     addItem({
       id: posterId,
       productType: "poster",
-      label: "Surreal Pilgrimage Route Poster",
-      image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
-      price: 1299,
+      label: posterProduct.label,
+      image: posterProduct.image,
+      price: posterProduct.price,
       quantity: 1,
     });
     toast.success("Poster added to cart");
@@ -82,9 +83,9 @@ export default function PostersComponent() {
     addItem({
       id: posterId,
       productType: "poster",
-      label: "Surreal Pilgrimage Route Poster",
-      image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888332/Posters1_cv871p.jpg",
-      price: 1299,
+      label: posterProduct.label,
+      image: posterProduct.image,
+      price: posterProduct.price,
       quantity: 1,
     });
     router.push("/cart");

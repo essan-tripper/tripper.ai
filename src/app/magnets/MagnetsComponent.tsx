@@ -9,17 +9,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { useSession } from "@/components/providers/auth-provider";
 import { Plus, Minus } from "lucide-react";
 import { ProductZoom } from "@/components/ProductZoom";
-
-const magnetVariants = [
-  { id: "kedarnath", label: "Kedarnath", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888040/kedanathmagnet_ffan1z.jpg", price: 129, originalPrice: 149 },
-  { id: "dwarka", label: "Dwarka", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888040/dwarkamaget_vsf8f1.jpg", price: 129, originalPrice: 149 },
-  { id: "puri", label: "Puri", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888043/purimagnet_oftu0g.jpg", price: 129, originalPrice: 149 },
-  { id: "rameshwaram", label: "Rameshwaram", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888041/rameshwarammagnet_qms6zx.jpg", price: 129, originalPrice: 149 },
-  { id: "badrinath", label: "Badrinath", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888040/badrinath_loydl8.jpg", price: 129, originalPrice: 149 },
-  { id: "gangotri", label: "Gangotri", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888039/gangotri_vmeluz.jpg", price: 129, originalPrice: 149 },
-  { id: "yamunotri", label: "Yamunotri", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888042/yamunotri_qokjwk.jpg", price: 129, originalPrice: 149 },
-  { id: "pack", label: "Pack of 4", image: "https://res.cloudinary.com/dbciv3dc2/image/upload/v1783888041/combomagnets_joxpoc.jpg", price: 399, originalPrice: 599 },
-];
+import { magnetVariants } from "@/lib/products";
 
 const aboutItems = [
   {

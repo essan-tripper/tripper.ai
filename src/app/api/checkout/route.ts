@@ -4,11 +4,23 @@ import { orders, orderItems, addresses } from "@/lib/db/schema";
 import { auth } from "@/lib/db/auth";
 import { headers } from "next/headers";
 import { nanoid } from "nanoid";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { env } from "@/env";
 import { razorpay } from "@/lib/razorpay";
 import { aj } from "@/lib/arcjet";
 import { slidingWindow } from "@arcjet/next";
+import { z } from "zod";
+import { checkoutProducts } from "@/lib/products";
+
+const checkoutItemSchema = z.object({
+  id: z.string().min(1),
+  quantity: z.number().int().positive().max(100),
+});
+
+const checkoutBodySchema = z.object({
+  items: z.array(checkoutItemSchema).min(1),
+  addressId: z.string().min(1),
+});
 
 export async function POST(request: Request) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -31,16 +43,29 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { items, addressId } = body;
-
-  if (!items || !Array.isArray(items) || items.length === 0) {
-    return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+  const parsedBody = checkoutBodySchema.safeParse(body);
+  if (!parsedBody.success) {
+    return NextResponse.json({ error: "Invalid checkout data" }, { status: 400 });
   }
+
+  const { items: requestedItems, addressId } = parsedBody.data;
+  const items = requestedItems.map((item) => {
+    const product = checkoutProducts.get(item.id);
+    return product ? { ...product, quantity: item.quantity } : null;
+  });
+
+  if (items.some((item) => item === null)) {
+    return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+  }
+
+  const validItems = items.filter(
+    (item): item is NonNullable<(typeof items)[number]> => item !== null
+  );
 
   const address = await db
     .select()
     .from(addresses)
-    .where(eq(addresses.id, addressId))
+    .where(and(eq(addresses.id, addressId), eq(addresses.userId, session.user.id)))
     .limit(1);
 
   if (address.length === 0) {
@@ -49,8 +74,8 @@ export async function POST(request: Request) {
 
   const addr = address[0];
 
-  const totalAmount = items.reduce(
-    (sum: number, item: { price: number; quantity: number }) =>
+  const totalAmount = validItems.reduce(
+    (sum: number, item) =>
       sum + item.price * item.quantity,
     0
   );
@@ -85,8 +110,8 @@ export async function POST(request: Request) {
     shippingCountry: addr.country,
   });
 
-  const orderItemsData = items.map(
-    (item: { productType: "magnet" | "poster"; label: string; image: string; price: number; quantity: number }) => ({
+  const orderItemsData = validItems.map(
+    (item) => ({
       id: `oi_${nanoid(16)}`,
       orderId,
       productType: item.productType,
