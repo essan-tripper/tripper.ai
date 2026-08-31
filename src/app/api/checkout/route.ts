@@ -117,7 +117,7 @@ export async function POST(request: Request) {
       productType: item.productType,
       label: item.label,
       image: item.image,
-      price: item.price,
+      price: item.price * 100,
       quantity: item.quantity,
     })
   );
