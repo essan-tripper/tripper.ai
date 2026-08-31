@@ -18,8 +18,13 @@ export async function POST(request: Request) {
     .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
     .update(rawBody)
     .digest("hex");
+  const expectedBuffer = Buffer.from(expected, "utf8");
+  const signatureBuffer = Buffer.from(signature, "utf8");
 
-  if (expected !== signature) {
+  if (
+    expectedBuffer.length !== signatureBuffer.length ||
+    !crypto.timingSafeEqual(expectedBuffer, signatureBuffer)
+  ) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
   }
 

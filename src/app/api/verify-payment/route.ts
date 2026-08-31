@@ -64,8 +64,13 @@ export async function POST(request: Request) {
     .createHmac("sha256", env.RAZORPAY_KEY_SECRET)
     .update(`${razorpayOrderId}|${razorpayPaymentId}`)
     .digest("hex");
+  const generatedBuffer = Buffer.from(generated, "utf8");
+  const signatureBuffer = Buffer.from(razorpaySignature, "utf8");
 
-  if (generated !== razorpaySignature) {
+  if (
+    generatedBuffer.length !== signatureBuffer.length ||
+    !crypto.timingSafeEqual(generatedBuffer, signatureBuffer)
+  ) {
     return NextResponse.json({ error: "Signature mismatch" }, { status: 400 });
   }
 
