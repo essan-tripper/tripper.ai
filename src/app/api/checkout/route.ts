@@ -12,13 +12,15 @@ import { slidingWindow } from "@arcjet/next";
 import { z } from "zod";
 import { checkoutProducts } from "@/lib/products";
 
+const MAX_CHECKOUT_ITEMS = checkoutProducts.size;
+
 const checkoutItemSchema = z.object({
   id: z.string().min(1),
   quantity: z.number().int().positive().max(100),
 });
 
 const checkoutBodySchema = z.object({
-  items: z.array(checkoutItemSchema).min(1),
+  items: z.array(checkoutItemSchema).min(1).max(MAX_CHECKOUT_ITEMS),
   addressId: z.string().min(1),
 });
 
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
   }
 
   const ajDecision = await aj.withRule(
-    slidingWindow({ mode: "DRY_RUN", interval: 60, max: 10 })
+    slidingWindow({ mode: "LIVE", interval: 60, max: 20 })
   ).protect(request);
 
   if (ajDecision.isDenied()) {
@@ -49,6 +51,10 @@ export async function POST(request: Request) {
   }
 
   const { items: requestedItems, addressId } = parsedBody.data;
+  if (new Set(requestedItems.map((item) => item.id)).size !== requestedItems.length) {
+    return NextResponse.json({ error: "Duplicate product" }, { status: 400 });
+  }
+
   const items = requestedItems.map((item) => {
     const product = checkoutProducts.get(item.id);
     return product ? { ...product, quantity: item.quantity } : null;
